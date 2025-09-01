@@ -550,8 +550,9 @@
     <!-- Header -->
     <header class="fixed top-0 left-0 w-full bg-opacity-80 bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-gray-900">
-                应达<span style="background: linear-gradient(90deg, #4f46e5, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">学术</span>
+            <a href="index.html" class="flex items-center space-x-2 text-2xl font-bold text-gray-900">
+                <img src="assets/logo_run_cn.png" alt="应达学术 Logo" class="w-9 h-9 rounded-full border border-indigo-200 object-cover">
+                <span>应达<span style="background: linear-gradient(90deg, #4f46e5, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">学术</span></span>
             </a>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="about.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
@@ -1123,7 +1124,7 @@ AAAI等长文，允许你铺陈背景、详述相关工作、展示大量实验�
             'conf-news-hotbrief': {
                 title: '千万别让你的投稿在这些地方出错——应达学术开源了一份你的专属最终投稿清单',
                 category: 'news',
-                content: `# AAAI-26 Final Checklist
+                content: `
 ## LaTeX模板要求
 ▪️ 避免使用fullpage, geometry, savetrees, setspace, addtolength, columnsep, baselinestretch等宏包或命令。
 
