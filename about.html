@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>应达学术 - 公司简介</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      /* 统一为与首页英雄区一致的背景渐变 */
+      background: linear-gradient(180deg, #f8f9fa 0%, #f3f6ff 50%, #eef2ff 100%);
+      background-attachment: fixed;
+      opacity: 0;
+    }
+    body.is-loaded { opacity: 1; transition: opacity 600ms ease; }
+    html { scroll-behavior: smooth; }
+    /* Ambient gradient blobs animation (match index.html) */
+    .animate-blob { animation: blob 18s ease-in-out infinite; }
+    .animation-delay-2000 { animation-delay: 2s; }
+    @keyframes blob {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      25%     { transform: translate(20px, -30px) scale(1.05); }
+      50%     { transform: translate(-15px, 10px) scale(0.98); }
+      75%     { transform: translate(10px, 25px) scale(1.03); }
+    }
+    /* Header polish on scroll + underline hover (match index) */
+    header { transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease; }
+    header.scrolled {
+      background-color: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 30px -20px rgba(2,6,23,0.35);
+      border-color: #e5e7eb;
+    }
+    header nav a { position: relative; }
+    header nav a::after {
+      content: "";
+      position: absolute; left: 0; bottom: -6px; height: 2px; width: 0;
+      background: linear-gradient(90deg, rgba(79,70,229,1) 0%, rgba(14,165,233,1) 100%);
+      transition: width 220ms ease;
+    }
+    header nav a:hover::after { width: 100%; }
+
+    /* CTA micro-interaction */
+    .lift { transition: transform 220ms ease, box-shadow 220ms ease; will-change: transform; }
+    .lift:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -12px rgba(79,70,229,0.35); }
+
+    /* Page icon floating effect (unified across pages) */
+    .floating-icon { animation: iconFloat 6s ease-in-out infinite; transform-origin: center; }
+    @keyframes iconFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    /* Scroll-in animation to match other pages */
+    .scroll-animate { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .scroll-animate.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* Gradient text highlight (match index.html) */
+    .gradient-text {
+      background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Flow cards connectors (desktop) */
+    .flow-grid { position: relative; }
+    .flow-card { position: relative; }
+    /* horizontal connector to the next card */
+    .flow-card.has-right::after {
+      content: "";
+      position: absolute; top: 50%; right: -40px; transform: translateY(-50%);
+      width: 40px; height: 6px; border-radius: 9999px;
+      background: linear-gradient(90deg, #e0e7ff, #c7d2fe);
+    }
+    .flow-card.has-right::before {
+      content: "";
+      position: absolute; top: 50%; right: -48px; transform: translateY(-50%);
+      width: 0; height: 0; border-left: 8px solid #c7d2fe; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+    }
+    /* vertical connector to next row */
+    .flow-card.down::after {
+      content: "";
+      position: absolute; left: 50%; bottom: -42px; transform: translateX(-50%);
+      width: 6px; height: 42px; border-radius: 9999px;
+      background: linear-gradient(#e0e7ff, #c7d2fe);
+    }
+    .flow-card.down::before {
+      content: ""; position: absolute; left: 50%; bottom: -54px; transform: translateX(-50%);
+      width: 0; height: 0; border-top: 8px solid #c7d2fe; border-left: 6px solid transparent; border-right: 6px solid transparent;
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+  
+  <header class="fixed top-0 left-0 w-full bg-transparent z-50 border-b border-transparent">
+    <div class="max-w-7xl mx-auto px-6 md:px-8 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-gray-900">应达<span class="gradient-text">学术</span></a>
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="about.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+        <a href="team.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">团队师资</a>
+        <a href="blogs.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+        <a href="research.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成熟课题</a>
+        <a href="index.html#cases" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+      </nav>
+      <a href="contact.html" class="hidden md:block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 shadow-lg shadow-indigo-600/30 lift">立即咨询</a>
+      <button id="mobile-menu-button" class="md:hidden text-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2 bg-white border-t border-gray-200">
+      <a href="about.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+      <a href="team.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">团队师资</a>
+      <a href="blogs.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+      <a href="research.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成熟课题</a>
+      <a href="index.html#cases" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+      <a href="contact.html" class="block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 text-center mt-4">立即咨询</a>
+    </div>
+  </header>
+
+  <main class="pt-28">
+    <!-- Hero -->
+    <section>
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-8 py-16 md:py-24 text-center">
+        <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 scroll-animate">关于<span class="gradient-text">应达学术</span></h1>
+      </div>
+    </section>
+
+    <!-- Section 1: 关于应达学术（卡片式） -->
+    <section class="py-12 md:py-16">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+        <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-6 text-center">我们是谁丨<span class="gradient-text">Who Are We?</span></h2>
+        <div class="max-w-4xl mx-auto space-y-5 text-center">
+          <p class="text-gray-600 leading-relaxed scroll-animate text-center">
+            应达学术是一家由科研科班出身创始人牵头的，由中科大、清华、港科大在读博士、教职、博后、互联网科技公司Top组研究员组队，旨在为有背景提升需求的学生提供国际高水平科研服务，主要涵盖顶会指导、毕业论文辅导、代码复现等多个方面。
+          </p>
+          <p class="text-gray-600 leading-relaxed scroll-animate text-center" style="transition-delay:.06s">
+            我们的使命是打破信息壁垒，将最前沿的科研经验和最专业的学术指导带给每一位有志于在AI领域深耕的学子，帮助他们建立坚实的科研能力，聚焦于每一位学子的背景提升。
+          </p>
+
+    
+
+   <!-- Section 2: 我们的优势（卡片式） -->
+    <section class="py-4 md:py-8">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+        <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-6 text-center">为什么选择我们丨<span class="gradient-text">Why Us?</span></h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm scroll-animate text-center flex flex-col items-center">
+            <i data-lucide="medal" class="w-7 h-7 text-indigo-600 mb-3 floating-icon mx-auto"></i>
+            <h3 class=" font-semibold text-gray-900 mb-2 text-lg">顶尖师资</h3>
+            <p class="text-gray-600 text-sm">应达学术合作的导师均来自国内 C9 名校、国际 QS 前 50 的博士/博后/高校教职，以及头部科技公司研究员等，师资力量雄厚。</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm scroll-animate text-center flex flex-col items-center" style="transition-delay:.05s">
+            <i data-lucide="workflow" class="w-7 h-7 text-indigo-600 mb-3 floating-icon mx-auto"></i>
+            <h3 class="font-semibold text-gray-900 mb-2 text-lg">流程正规</h3>
+            <p class="text-gray-600 text-sm">我们重视建立优良的商业口碑，专注于提供正规、安心的服务流程，坚决抵制学术不端、代写、代发等红线行为。</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm scroll-animate text-center flex flex-col items-center" style="transition-delay:.1s">
+            <i data-lucide="clock" class="w-7 h-7 text-indigo-600 mb-3 floating-icon mx-auto"></i>
+            <h3 class="font-semibold text-gray-900 mb-2 text-lg">合作资源广泛</h3>
+            <p class="text-gray-600 text-sm">不仅在学术辅导上积累深厚经验，我们的合作方也涵盖求职、实习、算力租赁等多方知名机构，提供优质的一条龙服务。</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm scroll-animate text-center flex flex-col items-center" style="transition-delay:.15s">
+            <i data-lucide="check-circle-2" class="w-7 h-7 text-indigo-600 mb-3 floating-icon mx-auto"></i>
+            <h3 class="font-semibold text-gray-900 mb-2 text-lg">聚焦科研生态</h3>
+            <p class="text-gray-600 text-sm">除论文辅导外，我们同样投入于建设应达学术生态，持续分享科研干货、维护开源 GitHub 仓库等共享资源。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: 合作流程（要点 + 流程卡片串联） -->
+    <section class="py-12 md:py-16">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+        <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-6 text-center">我们的合作流程丨<span class="gradient-text">How to Collaborate?</span></h2>
+        <!-- 要点式列举（可填写明细） -->
+        <div class="grid md:grid-cols-2 gap-12 mb-12">
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm scroll-animate">
+            <h3 class="font-semibold text-gray-900 mb-3">流程要点</h3>
+            <ul class="list-disc pl-6 text-gray-600 space-y-2 text-sm">
+              <li>初步沟通：确定大致方向与目标会议。</li>
+              <li>匹配名师：与一线名师一对一交流课题。</li>
+              <li>敲定细节：签约合同，确认合作正式开展。</li>
+              <li>项目启动：从调研、选题、实验、写作到录取的全程指导。</li>
+              <li>交付验收：坚持先录用后结款的合作准则。</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm scroll-animate" style="transition-delay:.05s">
+            <h3 class="font-semibold text-gray-900 mb-3">服务特点</h3>
+            <ul class="list-disc pl-6 text-gray-600 space-y-2 text-sm">
+              <li>远低于其他机构的定金费用（5% vs. 50%+）——我们主张“先辅导后付费”的服务原则。</li>
+              <li>多阶段付费——从定金到选题、可行性验证、实验完成、投稿，付费模式公开透明。</li>
+              <li>20%-40%的价格优势——我们诚心给用户优惠价格，专心用低价做好口碑。</li>
+              <li>可提供至多H20顶尖算力支持——我们是首家免费提供算力的科研辅导机构。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 串联流程卡片（两行网格 + 卡片内箭头底色） -->
+        <div class="hidden lg:grid grid-cols-3 gap-10 scroll-animate flow-grid" style="transition-delay:.1s">
+          <!-- 1 -->
+          <div class="flow-card has-right bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <i data-lucide="message-square" class="w-5 h-5 text-indigo-600"></i>
+              <h4 class="font-semibold text-gray-900 whitespace-nowrap">1. 初步沟通</h4>
+            </div>
+            <p class="text-xs text-gray-500 text-center">确定方向与目标会议</p>
+          </div>
+          <!-- 2 -->
+          <div class="flow-card has-right bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <i data-lucide="user-check" class="w-5 h-5 text-indigo-600"></i>
+              <h4 class="font-semibold text-gray-900 whitespace-nowrap">2. 匹配名师</h4>
+            </div>
+            <p class="text-xs text-gray-500 text-center">一线名师一对一交流</p>
+          </div>
+          <!-- 3 (last of first row, points down) -->
+          <div class="flow-card down bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <i data-lucide="file-signature" class="w-5 h-5 text-indigo-600"></i>
+              <h4 class="font-semibold text-gray-900 whitespace-nowrap">3. 敲定细节</h4>
+            </div>
+            <p class="text-xs text-gray-500 text-center">签约合同，正式开展</p>
+          </div>
+          <!-- 6 (start of second row, to the left of 5) -->
+          <div class="flow-card has-right bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <i data-lucide="mail" class="w-5 h-5 text-indigo-600"></i>
+              <h4 class="font-semibold text-gray-900 whitespace-nowrap">6. 文章录用</h4>
+            </div>
+            <p class="text-xs text-gray-500 text-center">收到官方录取邮件。</p>
+          </div>
+          <!-- 5 -->
+          <div class="flow-card has-right bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <i data-lucide="badge-check" class="w-5 h-5 text-indigo-600"></i>
+              <h4 class="font-semibold text-gray-900 whitespace-nowrap">5. 交付验收</h4>
+            </div>
+            <p class="text-xs text-gray-500 text-center">先录用后结款</p>
+          </div>
+          <!-- 4 (right of 5, aligns under 3) -->
+          <div class="flow-card bg-white rounded-2xl border border-gray-200 p-7 shadow-sm">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <i data-lucide="rocket" class="w-5 h-5 text-indigo-600"></i>
+              <h4 class="font-semibold text-gray-900 whitespace-nowrap">4. 项目启动</h4>
+            </div>
+            <p class="text-xs text-gray-500 text-center">调研/选题/实验/写作/录取 全程指导</p>
+          </div>
+        </div>
+
+        <!-- 移动端纵向流程 -->
+        <div class="lg:hidden space-y-4 scroll-animate" style="transition-delay:.1s">
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center gap-3">
+            <i data-lucide="message-square" class="w-5 h-5 text-indigo-600 flex-none"></i>
+            <div>
+              <h4 class="font-semibold text-gray-900">1. 初步沟通</h4>
+              <p class="text-xs text-gray-500 mt-1">确定方向与目标会议</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center gap-3">
+            <i data-lucide="user-check" class="w-5 h-5 text-indigo-600 flex-none"></i>
+            <div>
+              <h4 class="font-semibold text-gray-900">2. 匹配名师</h4>
+              <p class="text-xs text-gray-500 mt-1">一线名师一对一交流</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center gap-3">
+            <i data-lucide="file-signature" class="w-5 h-5 text-indigo-600 flex-none"></i>
+            <div>
+              <h4 class="font-semibold text-gray-900">3. 敲定细节</h4>
+              <p class="text-xs text-gray-500 mt-1">签约合同 正式合作</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center gap-3">
+            <i data-lucide="rocket" class="w-5 h-5 text-indigo-600 flex-none"></i>
+            <div>
+              <h4 class="font-semibold text-gray-900">4. 项目启动</h4>
+              <p class="text-xs text-gray-500 mt-1">调研/选题/实验/写作/录取 全程指导</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center gap-3">
+            <i data-lucide="badge-check" class="w-5 h-5 text-indigo-600 flex-none"></i>
+            <div>
+              <h4 class="font-semibold text-gray-900">5. 交付验收</h4>
+              <p class="text-xs text-gray-500 mt-1">先录用后结款</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex items-center gap-3">
+            <i data-lucide="mail" class="w-5 h-5 text-indigo-600 flex-none"></i>
+            <div>
+              <h4 class="font-semibold text-gray-900">6. 文章录用</h4>
+              <p class="text-xs text-gray-500 mt-1">收到官方录取邮件</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-12 md:py-16">
+      <div class="max-w-screen-2xl mx-auto px-6 md:px-8 text-center">
+        <a href="index.html#cases" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors">查看成功案例</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-12 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 md:px-8 text-center text-gray-500">
+      <a href="index.html" class="text-2xl font-bold text-gray-900 mb-4 inline-block">应达<span class="gradient-text">学术</span></a>
+      <div class="flex justify-center space-x-6 my-6">
+        <a href="index.html#about" class="hover:text-indigo-600 transition-colors">公司介绍</a>
+        <a href="index.html#team" class="hover:text-indigo-600 transition-colors">团队师资</a>
+        <a href="blogs.html" class="hover:text-indigo-600 transition-colors">应达干货</a>
+        <a href="research.html" class="hover:text-indigo-600 transition-colors">成熟课题</a>
+        <a href="index.html#cases" class="hover:text-indigo-600 transition-colors">成功案例</a>
+      </div>
+      <p>&copy; 2024 应达学术. All Rights Reserved.</p>
+      <p class="text-sm mt-2">为梦想插上翅膀，让才华顶峰相见。</p>
+    </div>
+  </footer>
+  <script>
+    // Page load fade-in
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('is-loaded');
+    });
+    // Scroll-in animation
+    const scrollEls = document.querySelectorAll('.scroll-animate');
+    const inView = (el, d=1) => el.getBoundingClientRect().top <= (window.innerHeight||document.documentElement.clientHeight)/d;
+    const show = el => el.classList.add('is-visible');
+    const onScroll = () => scrollEls.forEach(el => { if (inView(el,1.25)) show(el); });
+    window.addEventListener('scroll', onScroll); onScroll();
+    // Initialize lucide icons
+    lucide.createIcons();
+    // Header scrolled state & mobile menu
+    const siteHeader = document.querySelector('header');
+    const updateHeaderScrolled = () => {
+      if (!siteHeader) return;
+      if (window.scrollY > 10) siteHeader.classList.add('scrolled');
+      else siteHeader.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', updateHeaderScrolled); updateHeaderScrolled();
+    const mobileBtn = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) mobileBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

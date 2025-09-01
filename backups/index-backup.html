@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应达学术 - AI顶会投稿辅导专家 (集成Gemini API)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <style>
+        /* Custom styles for typography and animations */
+        body {
+            font-family: 'Inter', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa; /* Light grey background */
+            color: #334155; /* Dark slate text */
+        }
+
+        /* Hero section canvas for background animation */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.7; /* Slightly more opaque for light theme */
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for elements fading in on scroll */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom card styling for a premium feel */
+        .custom-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+
+        .custom-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Gradient text for titles */
+        .gradient-text {
+            background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Modal styles */
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-hidden .modal-backdrop {
+            opacity: 0;
+        }
+        .modal-hidden .modal-content {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        
+        /* Simple spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #4f46e5;
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-opacity-80 bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-900">
+                应达<span class="gradient-text">学术</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+                <a href="#team" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">团队师资</a>
+                <a href="#resources" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+                <a href="#cases" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+            </nav>
+            <a href="#" class="hidden md:block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 shadow-lg shadow-indigo-600/30">
+                立即咨询
+            </a>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2 bg-white border-t border-gray-200">
+            <a href="#about" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+            <a href="#team" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">团队师资</a>
+            <a href="#resources" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+            <a href="#cases" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+            <a href="#" class="block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 text-center mt-4">
+                立即咨询
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden bg-white">
+            <canvas id="hero-canvas"></canvas>
+            <div class="relative z-10 px-4">
+                <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-4 tracking-wider">
+                    你的 <span class="gradient-text">AI</span> 顶会论文，我们保驾护航
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                    专注 NeurIPS, ICML, ICLR 等顶级会议论文辅导，由世界顶尖学者和业界专家组成的导师团队，助你实现学术梦想。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#about" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 text-lg shadow-lg shadow-indigo-600/30">
+                        了解更多
+                    </a>
+                    <button id="show-research-suggester" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 text-lg">
+                        探索研究方向 ✨
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sections (About, Team, Cases) remain the same -->
+        <!-- Section: About Us -->
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="scroll-animate">
+                        <div class="relative w-full h-80 rounded-xl bg-gray-100 overflow-hidden shadow-lg">
+                             <img src="https://placehold.co/600x400/f8f9fa/4f46e5?text=Yingda+AI" alt="应达学术抽象图" class="w-full h-full object-cover opacity-30">
+                             <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="brain-circuit" class="w-24 h-24 text-indigo-500 opacity-50"></i>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="scroll-animate">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">关于<span class="gradient-text">应达</span></h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            应达学术成立于2020年，由一群来自全球顶尖高校和科技公司的AI研究者共同创立。我们深知在AI领域发表顶会论文的挑战与重要性。
+                        </p>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            我们的使命是打破信息壁垒，将最前沿的科研经验和最专业的学术指导带给每一位有志于在AI领域深耕的学子，帮助他们不仅成功发表论文，更能建立坚实的科研能力。
+                        </p>
+                        <div class="flex space-x-6">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold gradient-text">50+</p>
+                                <p class="text-sm text-gray-500">顶尖导师</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold gradient-text">300+</p>
+                                <p class="text-sm text-gray-500">成功案例</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold gradient-text">95%</p>
+                                <p class="text-sm text-gray-500">客户满意度</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Team -->
+        <section id="team" class="py-20 md:py-32 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">精英<span class="gradient-text">导师团队</span></h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate" style="transition-delay: 0.1s;">
+                        我们的导师均来自世界名校和顶尖科技公司，拥有丰富的顶会发表和审稿经验。
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Team Member Cards -->
+                    <div class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.2s;">
+                        <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=L.W" alt="导师照片">
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">李伟 博士</h3>
+                        <p class="text-indigo-600 mb-3">斯坦福大学 博士</p>
+                        <p class="text-gray-500 text-sm">NeurIPS, ICML 审稿人<br>前Google AI 研究员</p>
+                    </div>
+                    <div class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.3s;">
+                        <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Z.Y" alt="导师照片">
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">张颖 博士</h3>
+                        <p class="text-indigo-600 mb-3">麻省理工学院 博士后</p>
+                        <p class="text-gray-500 text-sm">主攻方向：计算机视觉<br>CVPR 一作发表 (Oral)</p>
+                    </div>
+                    <div class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.4s;">
+                        <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=W.C" alt="导师照片">
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">王超 教授</h3>
+                        <p class="text-indigo-600 mb-3">清华大学 助理教授</p>
+                        <p class="text-gray-500 text-sm">国家优青获得者<br>主攻方向：自然语言处理</p>
+                    </div>
+                    <div class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.5s;">
+                        <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=C.L" alt="导师照片">
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">陈丽 女士</h3>
+                        <p class="text-indigo-600 mb-3">Meta AI 研究科学家</p>
+                        <p class="text-gray-500 text-sm">ICLR 杰出论文奖获得者<br>主攻方向：强化学习</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Resources with Gemini Feature -->
+        <section id="resources" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">应达<span class="gradient-text">干货与工具</span></h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate" style="transition-delay: 0.1s;">
+                        我们分享顶会经验，并提供 AI 工具助你一臂之力。
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Gemini Abstract Generator Card -->
+                    <div class="custom-card rounded-xl overflow-hidden scroll-animate md:col-span-2" style="transition-delay: 0.2s;">
+                        <div class="p-8">
+                            <div class="flex items-center mb-4">
+                               <i data-lucide="sparkles" class="w-6 h-6 text-indigo-500 mr-2"></i>
+                               <h3 class="text-xl font-bold text-gray-900">AI 论文摘要生成器</h3>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-4">输入你的论文核心主题或关键词，AI 将为你生成一段高质量的顶会风格摘要。</p>
+                            <div class="space-y-4">
+                                <input id="abstract-input" type="text" placeholder="例如：用于大规模图像识别的自监督学习" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <button id="generate-abstract-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2.5 rounded-lg transition-all duration-300">
+                                    <span class="btn-text">立即生成 ✨</span>
+                                    <span class="spinner hidden"></span>
+                                </button>
+                                <div id="abstract-output" class="prose prose-sm max-w-none mt-4 text-gray-600 bg-gray-50 p-4 rounded-lg hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Resource Card 1 -->
+                    <div class="custom-card rounded-xl overflow-hidden scroll-animate" style="transition-delay: 0.3s;">
+                        <div class="p-8">
+                            <p class="text-sm text-indigo-600 mb-2">写作技巧</p>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">如何写好论文的 Introduction 部分？</h3>
+                            <p class="text-gray-500 text-sm mb-6">Introduction 是论文的门面，我们总结了“四步法”帮助你...</p>
+                            <a href="#" class="font-semibold text-gray-800 hover:text-indigo-600 transition-colors">阅读全文 &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Success Cases -->
+        <section id="cases" class="py-20 md:py-32 bg-gray-50">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">我们的<span class="gradient-text">成功案例</span></h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate" style="transition-delay: 0.1s;">
+                        口碑是我们最好的证明。看看和我们一起奋斗过的同学们怎么说。
+                    </p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Case Cards -->
+                    <div class="custom-card rounded-xl p-8 scroll-animate" style="transition-delay: 0.2s;">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/48x48/e2e8f0/334155?text=M.Z" alt="学员头像" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">马同学</h4>
+                                <p class="text-sm text-gray-500">北京大学 硕士</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">“导师的指导非常到位，从idea的打磨到实验设计，再到最后的论文写作，每一步都让我受益匪浅。最终中了 NeurIPS，真的非常感谢！”</p>
+                        <p class="font-semibold text-indigo-600">录取会议: NeurIPS 2024</p>
+                    </div>
+                    <div class="custom-card rounded-xl p-8 scroll-animate" style="transition-delay: 0.3s;">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/48x48/e2e8f0/334155?text=S.L" alt="学员头像" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">孙同学</h4>
+                                <p class="text-sm text-gray-500">上海交通大学 博士</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">“我的研究方向比较新，应达学术帮我匹配的导师正好是这个领域的专家。导师的远见和经验帮我避开了很多坑，最终论文被 ICML 接收。”</p>
+                        <p class="font-semibold text-indigo-600">录取会议: ICML 2024</p>
+                    </div>
+                    <div class="custom-card rounded-xl p-8 scroll-animate" style="transition-delay: 0.4s;">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/48x48/e2e8f0/334155?text=Q.W" alt="学员头像" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-gray-900">钱同学</h4>
+                                <p class="text-sm text-gray-500">浙江大学 本科</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">“作为一名本科生，能发表顶会是我的梦想。应达的导师非常有耐心，手把手教我做研究、写论文，让我建立了科研自信，最终成功投稿 CVPR。”</p>
+                        <p class="font-semibold text-indigo-600">录取会议: CVPR 2025</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-gray-200">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <a href="#" class="text-2xl font-bold text-gray-900 mb-4 inline-block">
+                应达<span class="gradient-text">学术</span>
+            </a>
+            <div class="flex justify-center space-x-6 my-6">
+                <a href="#about" class="hover:text-indigo-600 transition-colors">公司介绍</a>
+                <a href="#team" class="hover:text-indigo-600 transition-colors">团队师资</a>
+                <a href="#resources" class="hover:text-indigo-600 transition-colors">应达干货</a>
+                <a href="#cases" class="hover:text-indigo-600 transition-colors">成功案例</a>
+            </div>
+            <p>&copy; 2024 应达学术. All Rights Reserved.</p>
+            <p class="text-sm mt-2">为梦想插上翅膀，让才华顶峰相见。</p>
+        </div>
+    </footer>
+
+    <!-- Gemini AI Modal -->
+    <div id="gemini-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-hidden">
+        <!-- Backdrop -->
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50" id="modal-backdrop"></div>
+        <!-- Content -->
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-auto z-10 p-8 relative max-h-[80vh] flex flex-col">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div id="modal-title-container" class="mb-6">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900 flex items-center">
+                    <i data-lucide="sparkles" class="w-6 h-6 text-indigo-500 mr-3"></i>
+                    <span>AI 为您生成的研究方向</span>
+                </h3>
+            </div>
+            <div id="modal-input-container" class="mb-4">
+                 <p class="text-gray-500 text-sm mb-2">您的研究兴趣:</p>
+                 <input id="modal-input" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+            </div>
+            <div id="modal-output" class="prose max-w-none text-gray-600 overflow-y-auto flex-grow pr-4 -mr-4">
+                <!-- AI generated content will appear here -->
+            </div>
+            <div id="modal-loader" class="flex-grow flex items-center justify-center hidden">
+                <div class="text-center">
+                    <div class="spinner mx-auto"></div>
+                    <p class="mt-4 text-gray-500">AI 正在思考中，请稍候...</p>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end space-x-4" id="modal-action-container">
+                <button id="modal-generate-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300">
+                    <span class="btn-text">生成建议</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Gemini API Logic ---
+        const geminiApi = {
+            // IMPORTANT: Leave apiKey as an empty string.
+            // The execution environment will automatically handle authentication.
+            apiKey: "",
+            apiUrl: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`,
+
+            async generate(prompt) {
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }]
+                };
+                
+                const fullApiUrl = `${this.apiUrl}?key=${this.apiKey}`;
+
+                try {
+                    const response = await fetch(fullApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        // Replace markdown-like list formatting with HTML lists
+                        let text = result.candidates[0].content.parts[0].text;
+                        text = text.replace(/\n\*/g, '\n<li>');
+                        text = text.replace(/\n\d\./g, '\n<li>');
+                        text = text.replace(/^(\d\.|-|\*)\s/gm, '<li>');
+                        text = text.replace(/(\n<li>)/g, '</li>$1');
+                        if(text.startsWith('<li>')) text = '<ul>' + text + '</li></ul>';
+                        else text = '<ul>' + text + '</ul>';
+                        text = text.replace(/<\/li><\/ul>/g, '</ul></li>'); // Fix for nested lists
+                        return text.replace(/\n/g, '<br>');
+                    } else {
+                        console.error("Unexpected API response structure:", result);
+                        return "抱歉，AI 返回了意想不到的格式。";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    return "抱歉，与 AI 连接时发生错误，请稍后再试。";
+                }
+            }
+        };
+
+        // --- Modal Control ---
+        const modal = document.getElementById('gemini-modal');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        
+        const showModal = () => modal.classList.remove('modal-hidden');
+        const hideModal = () => modal.classList.add('modal-hidden');
+
+        modalBackdrop.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
+
+        // --- Research Suggester Logic ---
+        const showResearchSuggesterBtn = document.getElementById('show-research-suggester');
+        const modalTitle = document.getElementById('modal-title').querySelector('span');
+        const modalInput = document.getElementById('modal-input');
+        const modalOutput = document.getElementById('modal-output');
+        const modalLoader = document.getElementById('modal-loader');
+        const modalGenerateBtn = document.getElementById('modal-generate-btn');
+
+        showResearchSuggesterBtn.addEventListener('click', () => {
+            modalTitle.textContent = 'AI 为您生成的研究方向';
+            modalInput.value = '';
+            modalInput.placeholder = '例如：计算机视觉与自监督学习';
+            modalOutput.innerHTML = '<p class="text-gray-400">请输入您的研究兴趣，AI 将为您提供一些新颖的研究方向建议。</p>';
+            modalLoader.classList.add('hidden');
+            modalOutput.classList.remove('hidden');
+            modalGenerateBtn.onclick = handleGenerateResearch;
+            showModal();
+        });
+
+        async function handleGenerateResearch() {
+            const userInput = modalInput.value.trim();
+            if (!userInput) {
+                modalOutput.innerHTML = '<p class="text-red-500">请输入您的研究兴趣！</p>';
+                return;
+            }
+
+            modalLoader.classList.remove('hidden');
+            modalOutput.classList.add('hidden');
+            modalGenerateBtn.disabled = true;
+            modalGenerateBtn.querySelector('.btn-text').classList.add('hidden');
+            modalGenerateBtn.querySelector('.spinner').classList.remove('hidden');
+
+            const prompt = `我是一名对“${userInput}”领域感兴趣的研究者。请根据这个领域，为我推荐5个新颖且有潜力的AI顶会论文研究方向或题目。请用中文回答，并以有序列表（1., 2., 3.）的形式呈现，每个方向请附上一句简短的解释。`;
+            const result = await geminiApi.generate(prompt);
+            
+            modalOutput.innerHTML = result;
+            modalLoader.classList.add('hidden');
+            modalOutput.classList.remove('hidden');
+            modalGenerateBtn.disabled = false;
+            modalGenerateBtn.querySelector('.btn-text').classList.remove('hidden');
+            modalGenerateBtn.querySelector('.spinner').classList.add('hidden');
+        }
+
+        // --- Abstract Generator Logic ---
+        const abstractInput = document.getElementById('abstract-input');
+        const generateAbstractBtn = document.getElementById('generate-abstract-btn');
+        const abstractOutput = document.getElementById('abstract-output');
+
+        generateAbstractBtn.addEventListener('click', async () => {
+            const userInput = abstractInput.value.trim();
+            if (!userInput) {
+                abstractOutput.innerHTML = '<p class="text-red-500">请输入您的论文主题！</p>';
+                abstractOutput.classList.remove('hidden');
+                return;
+            }
+
+            const btnText = generateAbstractBtn.querySelector('.btn-text');
+            const spinner = generateAbstractBtn.querySelector('.spinner');
+
+            generateAbstractBtn.disabled = true;
+            btnText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            abstractOutput.classList.remove('hidden');
+            abstractOutput.innerHTML = '<p>AI 正在撰写中...</p>';
+
+            const prompt = `请你扮演一位资深的AI研究员。我正在构思一篇关于“${userInput}”的顶会论文。请帮我生成一段大约150-250字的专业、高质量的论文摘要（Abstract）。摘要需要包含背景介绍、本文方法、实验结果和结论。请用中文书写。`;
+            const result = await geminiApi.generate(prompt);
+
+            abstractOutput.innerHTML = result;
+            generateAbstractBtn.disabled = false;
+            btnText.classList.remove('hidden');
+            spinner.classList.add('hidden');
+        });
+
+
+        // --- Mobile Menu Toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Scroll Animation ---
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
+        };
+        const displayScrollElement = (element) => element.classList.add('is-visible');
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) displayScrollElement(el);
+            });
+        }
+        window.addEventListener('scroll', handleScrollAnimation);
+        handleScrollAnimation();
+
+        // --- Hero Canvas Animation ---
+        const canvas = document.getElementById('hero-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            const particleCount = Math.floor((canvas.width * canvas.height) / 25000);
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 1.5 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.color = `rgba(79, 70, 229, ${Math.random() * 0.8 + 0.1})`;
+                }
+                update() {
+                    this.x += this.speedX; this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+            }
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                connectParticles();
+                requestAnimationFrame(animateParticles);
+            }
+            function connectParticles() {
+                let opacityValue = 1;
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a; b < particles.length; b++) {
+                        let distance = Math.sqrt(Math.pow(particles[a].x - particles[b].x, 2) + Math.pow(particles[a].y - particles[b].y, 2));
+                        if (distance < 120) {
+                            opacityValue = 1 - (distance / 120);
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${opacityValue * 0.5})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            animateParticles();
+        }
+        
+        // Initialize lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

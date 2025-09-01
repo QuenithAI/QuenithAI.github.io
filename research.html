@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>探索研究方向 - 应达学术</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      /* 统一为与首页英雄区一致的背景渐变 */
+      background: linear-gradient(180deg, #f8f9fa 0%, #f3f6ff 50%, #eef2ff 100%);
+      background-attachment: fixed;
+      color: #334155;
+      opacity: 0;
+    }
+    body.is-loaded { opacity: 1; transition: opacity 600ms ease; }
+
+    html { scroll-behavior: smooth; }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .custom-card {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      position: relative; overflow: hidden;
+    }
+    .custom-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+    .custom-card::before {
+      content: ""; position: absolute; top: -20%; left: -60%; width: 40%; height: 140%;
+      background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-120%); transition: transform 0.6s ease; pointer-events: none;
+    }
+    .custom-card:hover::before { transform: translateX(220%); }
+
+    .scroll-animate { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(0.165, 0.84, 0.44, 1), transform .8s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    .scroll-animate.is-visible { opacity: 1; transform: translateY(0); }
+
+    header { transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease; }
+    header.scrolled {
+      background-color: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 30px -20px rgba(2,6,23,0.35);
+      border-color: #e5e7eb;
+    }
+    header nav a { position: relative; }
+    header nav a::after { content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0; background: linear-gradient(90deg, rgba(79,70,229,1) 0%, rgba(14,165,233,1) 100%); transition: width 220ms ease; }
+    header nav a:hover::after { width: 100%; }
+
+    .lift { transition: transform 220ms ease, box-shadow 220ms ease; will-change: transform; }
+    .lift:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -12px rgba(79,70,229,0.35); }
+    .lift:active { transform: translateY(0); box-shadow: 0 6px 12px -10px rgba(79,70,229,0.35); }
+
+    /* Ambient gradient blobs animation (match index.html) */
+    .animate-blob { animation: blob 18s ease-in-out infinite; }
+    .animation-delay-2000 { animation-delay: 2s; }
+    @keyframes blob {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      25%     { transform: translate(20px, -30px) scale(1.05); }
+      50%     { transform: translate(-15px, 10px) scale(0.98); }
+      75%     { transform: translate(10px, 25px) scale(1.03); }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 w-full bg-opacity-80 bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-gray-900">
+        应达<span class="gradient-text">学术</span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="about.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+        <a href="team.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">团队师资</a>
+        <a href="blogs.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+        <a href="research.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成熟课题</a>
+        <a href="index.html#cases" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+      </nav>
+      <a href="contact.html" class="hidden md:block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 shadow-lg shadow-indigo-600/30 lift">
+        立即咨询
+      </a>
+      <button id="mobile-menu-button" class="md:hidden text-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2 bg-white border-t border-gray-200">
+      <a href="about.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+      <a href="team.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">团队师资</a>
+      <a href="blogs.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+      <a href="research.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成熟课题</a>
+      <a href="index.html#cases" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+      <a href="contact.html" class="block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 text-center mt-4">
+        立即咨询
+      </a>
+    </div>
+  </header>
+
+  <main class="pt-28">
+    <!-- Page Intro -->
+    <section class="py-12">
+      <div class="container mx-auto px-6 text-center">
+        <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-3">探索<span class="gradient-text">研究方向</span></h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">部分成熟课题正在招生，名额有限，点击可联系获取详情与对接导师。</p>
+      </div>
+    </section>
+
+    <!-- Card Grid -->
+    <section class="pb-24">
+      <div class="container mx-auto px-6">
+        <div class="grid sm:grid-cols-2 gap-8">
+
+          <!-- 卡片：顺序偏见鲁棒的医疗长文本生成优化 -->
+          <article class="custom-card p-6 rounded-xl scroll-animate">
+            <div class="flex items-center mb-3">
+              <i data-lucide="file-text" class="w-5 h-5 text-indigo-500 mr-2"></i>
+              <h3 class="text-lg font-semibold text-gray-900">顺序偏见鲁棒的医疗长文本生成优化</h3>
+            </div>
+            <p class="text-gray-600 text-sm mb-2"><span class="font-medium">方向：</span>NLP/多模态</p>
+            <p class="text-gray-600 text-sm mb-4">探索 non-autoregressive 的生成范式，旨在解决垂直领域中，长文本生成存在的顺序偏见问题。</p>
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded">CVPR / ECCV / ACL</span>
+              <a href="contact.html" class="text-gray-700 hover:text-indigo-600 text-sm font-medium">了解详情 →</a>
+            </div>
+          </article>
+
+          <!-- 卡片：轻量化图像超分辨率算法 -->
+          <article class="custom-card p-6 rounded-xl scroll-animate" style="transition-delay: .05s;">
+            <div class="flex items-center mb-3">
+              <i data-lucide="image" class="w-5 h-5 text-indigo-500 mr-2"></i>
+              <h3 class="text-lg font-semibold text-gray-900">轻量化图像超分辨率算法</h3>
+            </div>
+            <p class="text-gray-600 text-sm mb-2"><span class="font-medium">方向：</span>CV</p>
+            <p class="text-gray-600 text-sm mb-4">聚焦底层视觉中感受野受限的问题，从高效长距离建模、感受野扩张等角度探寻解决方案。</p>
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded">CVPR / ECCV</span>
+              <a href="contact.html" class="text-gray-700 hover:text-indigo-600 text-sm font-medium">了解详情 →</a>
+            </div>
+          </article>
+
+          
+
+        </div>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white py-12 border-t border-gray-200">
+    <div class="container mx-auto px-6 text-center text-gray-500">
+      <a href="index.html" class="text-2xl font-bold text-gray-900 mb-4 inline-block">
+        应达<span class="gradient-text">学术</span>
+      </a>
+      <div class="flex justify-center space-x-6 my-6">
+        <a href="index.html#about" class="hover:text-indigo-600 transition-colors">公司介绍</a>
+        <a href="index.html#team" class="hover:text-indigo-600 transition-colors">团队师资</a>
+        <a href="blogs.html" class="hover:text-indigo-600 transition-colors">应达干货</a>
+        <a href="index.html#cases" class="hover:text-indigo-600 transition-colors">成功案例</a>
+      </div>
+      <p>&copy; 2024 应达学术. All Rights Reserved.</p>
+      <p class="text-sm mt-2">为梦想插上翅膀，让才华顶峰相见。</p>
+    </div>
+  </footer>
+
+  <script>
+    // Load fade-in
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('is-loaded');
+    });
+
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuButton) {
+      mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    }
+
+    // Scroll animation
+    const scrollElements = document.querySelectorAll('.scroll-animate');
+    const elementInView = (el, dividend = 1) => el.getBoundingClientRect().top <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
+    const displayScrollElement = (el) => el.classList.add('is-visible');
+    const handleScrollAnimation = () => scrollElements.forEach((el) => { if (elementInView(el, 1.25)) displayScrollElement(el); });
+    window.addEventListener('scroll', handleScrollAnimation); handleScrollAnimation();
+
+    // Header scrolled state
+    const siteHeader = document.querySelector('header');
+    const updateHeaderScrolled = () => {
+      if (!siteHeader) return;
+      if (window.scrollY > 10) siteHeader.classList.add('scrolled'); else siteHeader.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', updateHeaderScrolled); updateHeaderScrolled();
+
+    // Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

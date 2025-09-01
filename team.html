@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>团队师资 - 应达学术</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', 'Helvetica Neue', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(180deg, #f8f9fa 0%, #f3f6ff 50%, #eef2ff 100%);
+      background-attachment: fixed;
+      color: #334155;
+      opacity: 0;
+    }
+    body.is-loaded { opacity: 1; transition: opacity 600ms ease; }
+    html { scroll-behavior: smooth; }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .custom-card {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      position: relative; overflow: hidden;
+    }
+    .custom-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+    .custom-card::before {
+      content: ""; position: absolute; top: -20%; left: -60%; width: 40%; height: 140%;
+      background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-120%); transition: transform 0.6s ease; pointer-events: none;
+    }
+    .custom-card:hover::before { transform: translateX(220%); }
+
+    header { transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease; }
+    header.scrolled {
+      background-color: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 30px -20px rgba(2,6,23,0.35);
+      border-color: #e5e7eb;
+    }
+    header nav a { position: relative; }
+    header nav a::after { content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0; background: linear-gradient(90deg, rgba(79,70,229,1) 0%, rgba(14,165,233,1) 100%); transition: width 220ms ease; }
+    header nav a:hover::after { width: 100%; }
+
+    .scroll-animate { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(0.165, 0.84, 0.44, 1), transform .8s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    .scroll-animate.is-visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Header -->
+  <header class="fixed top-0 left-0 w-full bg-opacity-80 bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-gray-900">
+        应达<span class="gradient-text">学术</span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="about.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+        <a href="team.html" class="text-gray-900 font-medium transition-colors duration-300">团队师资</a>
+        <a href="blogs.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+        <a href="research.html" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成熟课题</a>
+        <a href="index.html#cases" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+      </nav>
+      <a href="contact.html" class="hidden md:block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 shadow-lg shadow-indigo-600/30">
+        立即咨询
+      </a>
+      <button id="mobile-menu-button" class="md:hidden text-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2 bg-white border-t border-gray-200">
+      <a href="about.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">公司介绍</a>
+      <a href="team.html" class="block text-gray-900 font-medium transition-colors duration-300">团队师资</a>
+      <a href="blogs.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">应达干货</a>
+      <a href="research.html" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成熟课题</a>
+      <a href="index.html#cases" class="block text-gray-600 hover:text-indigo-600 transition-colors duration-300">成功案例</a>
+      <a href="contact.html" class="block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 text-center mt-4">立即咨询</a>
+    </div>
+  </header>
+
+  <main class="pt-28">
+    <!-- Page Intro -->
+    <section class="py-10 md:py-14 text-center">
+      <div class="container mx-auto px-6">
+        <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-3">我们的<span class="gradient-text">导师团队</span></h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">来自世界顶尖学府与一线科技公司的导师，为你的科研之路保驾护航。</p>
+      </div>
+    </section>
+
+    <!-- Team Grid -->
+    <section class="pb-20">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <!-- Card samples -->
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=E" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">E 博士</h3>
+            <p class="text-indigo-600 mb-3">欧洲QS Top-50丨博士/博后</p>
+            <p class="text-gray-500 text-sm">主攻方向：MLLM、Diffusion Model相关。<br>博士在读期间已发表十余篇CCF-A、SCI一区等级的顶会顶刊，目前已经成功指导多名同学发表CCF-A类论文。</p>
+          </article>
+
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.05s;">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Jack" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Jack 博士</h3>
+            <p class="text-indigo-600 mb-3">腾讯某Top组丨Research Scientist</p>
+            <p class="text-gray-500 text-sm">主攻方向：视频生成、World Model相关，Google Scholar引用1000+。<br>学术工程经验丰厚，课题扎实。</p>
+          </article>
+
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.1s;">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Feng" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Feng 博士</h3>
+            <p class="text-indigo-600 mb-3">QS Top-200罗素集团全球顶尖院校丨终身助理教授</p>
+            <p class="text-gray-500 text-sm">主攻方向：大模型安全、自/弱监督学习、MLLM、面向high-level vision的扩散模型。<br>本985、硕Top-2、博英国罗素名校，曾任G5博后，手握多篇独立一作A类论文。</p>
+          </article>
+
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.15s;">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Floyd" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Floyd 博士</h3>
+            <p class="text-indigo-600 mb-3">中科大博士</p>
+            <p class="text-gray-500 text-sm">主攻方向：文生图、可控生成、视频基座模型应用、大模型微调。<br>每年发表多篇顶会顶刊论文，指导经验细致丰富，一作综述论文作者，开源项目坐拥GitHub Star ~2000。</p>
+          </article>
+
+          <!-- More placeholders -->
+           <article class="custom-card text-center p-8 rounded-xl scroll-animate">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Niliku" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Niliku 老师</h3>
+            <p class="text-indigo-600 mb-3">新加坡国立大学丨博士</p>
+            <p class="text-gray-500 text-sm">主攻方向：计算社会科学、人机交互、AI社会应用、人本化自然语言处理<br>已发表顶会论文10余篇，聚焦 AI+X 等前沿交叉领域，多项研究和学术资助持有者，已指导本科、研究生 15 余名。</p>
+          </article>
+
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.05s;">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Tommy" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Tommy</h3>
+            <p class="text-indigo-600 mb-3">C9名校丨博士</p>
+            <p class="text-gray-500 text-sm">主攻方向：计算机视觉、多模态世界模型/助手、具身智能<br>已发表 11 篇顶会论文，在投文章 20 余篇。</p>
+          </article>
+
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.1s;">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Michael" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Michael</h3>
+            <p class="text-indigo-600 mb-3">C9名校丨博士</p>
+            <p class="text-gray-500 text-sm">主攻方向：PEFT、Agent、LLM 安全、TOD、MoE。<br>已发表 5 篇顶会论文，指导风格耐心细致，一线科研积累非常丰厚，善于发掘有价值的课题。</p>
+          </article>
+
+          <article class="custom-card text-center p-8 rounded-xl scroll-animate" style="transition-delay: 0.15s;">
+            <img class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-200" src="https://placehold.co/100x100/e2e8f0/334155?text=Billy" alt="导师照片">
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Billy 老师</h3>
+            <p class="text-indigo-600 mb-3">QS前百名校丨澳洲全奖博士</p>
+            <p class="text-gray-500 text-sm">主攻方向：网络优化、边缘计算、物联网、车联网。<br>已发表 3 篇 CCF-A 顶会、5 篇一区顶刊，数篇其他等级的会议。</p>
+          </article>
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="index.html#cases" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors">查看成功案例</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white py-12 border-t border-gray-200">
+    <div class="container mx-auto px-6 text-center text-gray-500">
+      <a href="index.html" class="text-2xl font-bold text-gray-900 mb-4 inline-block">
+        应达<span class="gradient-text">学术</span>
+      </a>
+      <div class="flex justify-center space-x-6 my-6">
+        <a href="about.html" class="hover:text-indigo-600 transition-colors">公司介绍</a>
+        <a href="team.html" class="hover:text-indigo-600 transition-colors">团队师资</a>
+        <a href="blogs.html" class="hover:text-indigo-600 transition-colors">应达干货</a>
+        <a href="index.html#cases" class="hover:text-indigo-600 transition-colors">成功案例</a>
+      </div>
+      <p>&copy; 2024 应达学术. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('is-loaded');
+    });
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuButton) {
+      mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    }
+    // Scroll animation
+    const scrollElements = document.querySelectorAll('.scroll-animate');
+    const elementInView = (el, dividend = 1) => el.getBoundingClientRect().top <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
+    const displayScrollElement = (el) => el.classList.add('is-visible');
+    const handleScrollAnimation = () => scrollElements.forEach((el) => { if (elementInView(el, 1.2)) displayScrollElement(el); });
+    window.addEventListener('scroll', handleScrollAnimation); handleScrollAnimation();
+    // Header scrolled state
+    const siteHeader = document.querySelector('header');
+    const updateHeaderScrolled = () => { if (window.scrollY > 10) siteHeader.classList.add('scrolled'); else siteHeader.classList.remove('scrolled'); };
+    window.addEventListener('scroll', updateHeaderScrolled); updateHeaderScrolled();
+    // Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
