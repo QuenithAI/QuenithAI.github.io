@@ -16,6 +16,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
 
     <style>
@@ -26,6 +29,7 @@
             background: linear-gradient(180deg, #f8f9fa 0%, #f3f6ff 50%, #eef2ff 100%);
             background-attachment: fixed;
             color: #334155; /* Dark slate text */
+            overflow-x: hidden;
         }
         /* Gentle page-load fade */
         body { opacity: 0; }
@@ -51,6 +55,26 @@
         /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
+            scrollbar-gutter: stable;
+            scrollbar-width: thin;
+            scrollbar-color: #94a3b8 #e2e8f0;
+        }
+
+        /* Unified scrollbar style (vertical + horizontal) */
+        *::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        *::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        *::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 999px;
+            border: 2px solid #e2e8f0;
+        }
+        *::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
         }
 
         /* Animation for elements fading in on scroll */
@@ -100,6 +124,38 @@
             -webkit-text-fill-color: transparent;
             background-size: 200% 200%;
             animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        /* About section markdown style (aligned with blogs highlight style) */
+        .about-markdown {
+            color: #4b5563;
+            line-height: 1.85;
+        }
+        .about-markdown p { margin-bottom: 1rem; }
+        .about-markdown strong {
+            font-weight: 600;
+            color: #1f2937;
+            background: linear-gradient(120deg, #a78bfa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .about-markdown code:not(pre > code) {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            color: #5b21b6;
+            padding: 0.2em 0.5em;
+            margin: 0 0.08em;
+            font-size: 85%;
+            border-radius: 6px;
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(139, 92, 246, 0.1);
+        }
+        .about-markdown mark {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            color: #5b21b6;
+            padding: 0.15em 0.25em;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(139, 92, 246, 0.1);
         }
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
@@ -172,6 +228,283 @@
             25%     { transform: translate(20px, -30px) scale(1.05); }
             50%     { transform: translate(-15px, 10px) scale(0.98); }
             75%     { transform: translate(10px, 25px) scale(1.03); }
+        }
+
+        /* Floating news panel */
+        #floating-news {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 40;
+            width: min(360px, calc(100vw - 2rem));
+        }
+
+        .floating-news-panel {
+            box-shadow: 0 20px 45px -25px rgba(15, 23, 42, 0.45);
+            transform-origin: bottom right;
+            transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+        }
+
+        .floating-news-panel.is-minimized {
+            opacity: 0;
+            transform: translateY(16px) scale(0.94);
+            pointer-events: none;
+        }
+
+        .floating-news-fab {
+            transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+        }
+
+        .floating-news-fab.is-hidden {
+            opacity: 0;
+            transform: translateY(12px) scale(0.96);
+            pointer-events: none;
+        }
+
+        .floating-news-hint {
+            position: fixed;
+            left: 0;
+            top: 0;
+            font-size: 0.75rem;
+            line-height: 1;
+            color: #ffffff;
+            background: rgba(30, 41, 59, 0.92);
+            border-radius: 999px;
+            padding: 0.4rem 0.7rem;
+            box-shadow: 0 10px 24px -18px rgba(15, 23, 42, 0.7);
+            opacity: 0;
+            transform: translate(-50%, -100%) translateY(6px) scale(0.96);
+            pointer-events: none;
+            transition: opacity 180ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 60;
+        }
+
+        .floating-news-hint.is-visible {
+            opacity: 1;
+            transform: translate(-50%, -100%) translateY(0) scale(1);
+        }
+
+        .floating-news-title-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #1e293b;
+            border-radius: 0.75rem;
+            padding: 0.75rem 0.875rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
+        }
+
+        .floating-news-title-btn .title-text {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .floating-news-title-btn .title-arrow {
+            color: #4f46e5;
+            opacity: 0.7;
+            transition: transform 220ms ease, opacity 220ms ease;
+        }
+
+        .floating-news-title-btn:hover {
+            border-color: #a5b4fc;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 100%);
+            box-shadow: 0 10px 24px -16px rgba(79, 70, 229, 0.55);
+            transform: translateY(-3px) scale(1.01);
+        }
+
+        .floating-news-title-btn:hover .title-arrow {
+            transform: translateX(2px);
+            opacity: 1;
+        }
+
+        .floating-news-title-btn.is-clicking {
+            border-color: #6366f1;
+            background: linear-gradient(135deg, #e0e7ff 0%, #e0f2fe 100%);
+            box-shadow: 0 14px 28px -18px rgba(79, 70, 229, 0.7);
+            animation: floatingNewsItemClick 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .floating-news-title-btn.is-clicking .title-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .floating-news-markdown {
+            color: #1f2937;
+            line-height: 1.42;
+            max-width: none;
+        }
+
+        .floating-news-markdown h1,
+        .floating-news-markdown h2,
+        .floating-news-markdown h3 {
+            color: #111827;
+            font-weight: 700;
+            margin-top: 1.15em;
+            margin-bottom: 0.55em;
+            position: relative;
+            scroll-margin-top: 2rem;
+        }
+
+        .floating-news-markdown h1 {
+            font-size: 2.1rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .floating-news-markdown h2 {
+            font-size: 1.55rem;
+            line-height: 1.3;
+            color: #4f46e5;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .floating-news-markdown h3 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            color: #6366f1;
+        }
+
+        .floating-news-markdown p {
+            margin-bottom: 0.55em;
+            line-height: 1.42 !important;
+            text-align: justify;
+        }
+
+        .floating-news-markdown strong {
+            font-weight: 600;
+            color: #1f2937;
+            background: linear-gradient(120deg, #a78bfa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .floating-news-markdown em {
+            font-style: italic;
+            color: #4b5563;
+        }
+
+        .floating-news-markdown a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+            background: linear-gradient(120deg, #4f46e5, #06b6d4);
+            background-size: 0% 2px;
+            background-repeat: no-repeat;
+            background-position: left bottom;
+            transition: all 0.3s ease;
+            padding-bottom: 1px;
+        }
+
+        .floating-news-markdown a:hover {
+            background-size: 100% 2px;
+            color: #06b6d4;
+        }
+
+        .floating-news-markdown ul,
+        .floating-news-markdown ol {
+            padding-left: 2em;
+            margin-bottom: 0.7em;
+        }
+
+        .floating-news-markdown li {
+            margin-bottom: 0.2em;
+            line-height: 1.4 !important;
+        }
+
+        .floating-news-markdown li::marker {
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .floating-news-markdown blockquote {
+            padding: 0.95em 1.2em;
+            border-left: 4px solid #6366f1;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #475569;
+            font-style: italic;
+            line-height: 1.42 !important;
+            margin: 0.75em 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .floating-news-markdown blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        .floating-news-markdown pre {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin: 2em 0;
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .floating-news-markdown pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5, #06b6d4, #10b981);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .floating-news-markdown code {
+            font-family: 'SFMono-Regular', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        }
+
+        .floating-news-markdown code:not(pre > code) {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            color: #5b21b6;
+            padding: 0.3em 0.6em;
+            margin: 0 0.1em;
+            font-size: 85%;
+            border-radius: 6px;
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .floating-news-markdown mark {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            color: #5b21b6;
+            padding: 0.15em 0.25em;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(139, 92, 246, 0.1);
+        }
+
+        @keyframes floatingNewsItemClick {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            45% {
+                transform: translateY(-2px) scale(1.015);
+            }
+            100% {
+                transform: translateY(0) scale(0.995);
+            }
         }
     </style>
 </head>
@@ -269,12 +602,7 @@
                                 <img src="assets/logo_run_cn.png" alt="应达学术 Logo" class="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover">
                             </span>
                         </div>
-                        <p class="text-gray-600 mb-4 leading-relaxed">
-                            应达学术是一家由科研科班出身创始人牵头的，由中科大、清华、港科大在读博士、教职、博后、互联网科技公司Top组研究员组队，旨在为有背景提升需求的学生提供国际高水平科研服务，主要涵盖顶会指导、毕业论文辅导、代码复现等多个方面。
-                        </p>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            我们的使命是打破信息壁垒，将最前沿的科研经验和最专业的学术指导带给每一位有志于在AI领域深耕的学子，帮助他们建立坚实的科研能力，聚焦于每一位学子的背景提升。
-                        </p>
+                        <div id="about-markdown-content" class="about-markdown mb-6"></div>
                         <div class="flex space-x-6">
                             <div class="text-center">
                                 <p class="text-3xl font-bold gradient-text">50+</p>
@@ -481,6 +809,41 @@
         </div>
     </div>
 
+    <!-- Floating News -->
+    <div id="floating-news" class="fixed right-4 bottom-4 z-40 w-[360px] max-w-[calc(100vw-2rem)] relative">
+        <button id="floating-news-fab" class="floating-news-fab is-hidden absolute right-0 bottom-0 w-full rounded-xl border border-indigo-200 bg-white/95 backdrop-blur px-4 py-3 text-left text-sm font-semibold text-indigo-700 shadow-lg">
+            <span class="inline-flex items-center gap-2">
+                <i data-lucide="newspaper" class="w-4 h-4"></i>
+                👉点我了解最新热点动态！
+            </span>
+        </button>
+        <div id="floating-news-hint" class="floating-news-hint" aria-hidden="true">最小化</div>
+
+        <section id="floating-news-panel" class="floating-news-panel absolute right-0 bottom-0 w-full rounded-2xl border border-indigo-100 bg-white/95 backdrop-blur overflow-hidden">
+            <div id="floating-news-header-trigger" class="flex items-center justify-between px-4 py-3 border-b border-slate-200/80 bg-gradient-to-r from-indigo-50 to-cyan-50 cursor-pointer select-none hover:from-indigo-100 hover:to-cyan-100 transition-colors" role="button" tabindex="0" aria-label="最小化新闻面板">
+                <span class="text-sm font-semibold text-slate-800">👉点我了解最新热点动态！</span>
+                <span class="p-1.5 rounded-md text-slate-500 pointer-events-none" aria-hidden="true">
+                    <i data-lucide="minus" class="w-4 h-4"></i>
+                </span>
+            </div>
+
+            <div id="floating-news-list" class="p-3 space-y-2 max-h-[360px] overflow-y-auto"></div>
+        </section>
+    </div>
+
+    <div id="floating-news-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-hidden">
+        <div id="floating-news-modal-backdrop" class="modal-backdrop fixed inset-0 bg-slate-900/35 backdrop-blur-sm"></div>
+        <div class="modal-content relative z-10 w-full max-w-3xl max-h-[82vh] rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50 to-cyan-50">
+                <h3 id="floating-news-modal-title" class="text-lg font-semibold text-slate-900"></h3>
+                <button id="floating-news-modal-close" class="p-2 rounded-md text-slate-500 hover:text-slate-700 hover:bg-white/80 transition-colors" aria-label="关闭新闻详情">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <article id="floating-news-modal-content" class="floating-news-markdown p-6 text-sm text-slate-700 overflow-y-auto"></article>
+        </div>
+    </div>
+
     <script>
         // Page load fade-in
         document.addEventListener('DOMContentLoaded', () => {
@@ -557,6 +920,201 @@
         const modalLoader = document.getElementById('modal-loader');
         const modalGenerateBtn = document.getElementById('modal-generate-btn');
 
+        // --- Floating News ---
+        // 手动更新这里即可维护首页悬浮新闻：
+        // 1) 修改 title 作为标题列表文案
+        // 2) 修改 content 作为点开后全文内容（支持换行）
+        const floatingNewsItems = [
+            {
+                id: '2026-03-09-mm26-timeline',
+                title: 'MM-26投稿时间线汇总',
+                content: `
+                
+👋 大家好，我们是应达学术团队。
+                
+👋 距离MM-26截止还剩24天左右！小达帮大家总结了今年MM-26的最新timeline，正在准备投稿的宝子们别忘了check一下～
+
+# 时间线
+
+❶ 摘要（政策）：**3月25日**；
+
+❷ 正文：**4月1日**；
+
+❸ 补充材料：**4月8日**；
+
+❹ Rebuttal：**6月4日**；
+
+❺ Camera-Ready：**8月6日**。   
+
+⚠️ 官方目前的公告是**摘要后禁止更改作者顺序**，只能修改typo。
+
+⚠️ 模板规定**正文长度为6～8页**，参考文献**最多2页**。
+
+⚠️ 今年首次设立**专门的补充材料deadline**，单独提交，投稿的小伙伴们又有**一周**的额外时间准备啦～
+
+🙋‍♀️ 近期会进一步为大家总结**MM-26 vs. MM-25的最新政策规定变动和对比**，有正在的投稿的小伙伴们不要错过啦！
+
+🙋‍♀️ 最后预祝大家投稿顺利！
+                
+                `
+            },
+        ];
+
+        const floatingNewsFab = document.getElementById('floating-news-fab');
+        const floatingNewsPanel = document.getElementById('floating-news-panel');
+        const floatingNewsHeaderTrigger = document.getElementById('floating-news-header-trigger');
+        const floatingNewsHint = document.getElementById('floating-news-hint');
+        const floatingNewsList = document.getElementById('floating-news-list');
+        const floatingNewsModal = document.getElementById('floating-news-modal');
+        const floatingNewsModalBackdrop = document.getElementById('floating-news-modal-backdrop');
+        const floatingNewsModalClose = document.getElementById('floating-news-modal-close');
+        const floatingNewsModalTitle = document.getElementById('floating-news-modal-title');
+        const floatingNewsModalContent = document.getElementById('floating-news-modal-content');
+        let isFloatingNewsBodyLocked = false;
+        let floatingNewsPrevBodyOverflow = '';
+
+        const lockBodyForFloatingNewsModal = () => {
+            if (isFloatingNewsBodyLocked) return;
+            floatingNewsPrevBodyOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            isFloatingNewsBodyLocked = true;
+        };
+
+        const unlockBodyForFloatingNewsModal = () => {
+            if (!isFloatingNewsBodyLocked) return;
+            document.body.style.overflow = floatingNewsPrevBodyOverflow;
+            isFloatingNewsBodyLocked = false;
+        };
+
+        const closeFloatingNewsModal = () => {
+            if (!floatingNewsModal) return;
+            floatingNewsModal.classList.add('modal-hidden');
+            unlockBodyForFloatingNewsModal();
+        };
+
+        const openFloatingNewsModal = (item) => {
+            if (!floatingNewsModal || !floatingNewsModalTitle || !floatingNewsModalContent) return;
+            floatingNewsModalTitle.textContent = item.title;
+            const markdownText = String(item.content || '');
+            if (window.marked && typeof window.marked.parse === 'function') {
+                floatingNewsModalContent.innerHTML = window.marked.parse(markdownText);
+                if (window.hljs) {
+                    floatingNewsModalContent.querySelectorAll('pre code').forEach((block) => {
+                        window.hljs.highlightElement(block);
+                    });
+                }
+            } else {
+                const escaped = markdownText
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/\n/g, '<br>');
+                floatingNewsModalContent.innerHTML = `<p>${escaped}</p>`;
+            }
+
+            floatingNewsModal.classList.remove('modal-hidden');
+            lockBodyForFloatingNewsModal();
+        };
+
+        const renderFloatingNews = () => {
+            floatingNewsList.innerHTML = '';
+            floatingNewsItems.forEach((item) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'floating-news-title-btn';
+                button.setAttribute('aria-label', `查看新闻：${item.title}`);
+
+                const titleText = document.createElement('span');
+                titleText.className = 'title-text';
+                titleText.textContent = item.title;
+
+                const arrow = document.createElement('span');
+                arrow.className = 'title-arrow';
+                arrow.setAttribute('aria-hidden', 'true');
+                arrow.textContent = '↗';
+
+                button.appendChild(titleText);
+                button.appendChild(arrow);
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('is-clicking')) return;
+                    button.classList.add('is-clicking');
+                    window.setTimeout(() => {
+                        button.classList.remove('is-clicking');
+                        openFloatingNewsModal(item);
+                    }, 180);
+                });
+                floatingNewsList.appendChild(button);
+            });
+        };
+
+        if (floatingNewsFab && floatingNewsPanel && floatingNewsList) {
+            renderFloatingNews();
+
+            const showFloatingNewsHint = (text, anchorEl) => {
+                if (!floatingNewsHint || !anchorEl) return;
+                const rect = anchorEl.getBoundingClientRect();
+                const top = Math.max(8, rect.top - 8);
+                const left = Math.min(window.innerWidth - 12, Math.max(12, rect.left + rect.width / 2));
+                floatingNewsHint.style.left = `${left}px`;
+                floatingNewsHint.style.top = `${top}px`;
+                floatingNewsHint.textContent = text;
+                floatingNewsHint.classList.add('is-visible');
+            };
+
+            const hideFloatingNewsHint = () => {
+                if (!floatingNewsHint) return;
+                floatingNewsHint.classList.remove('is-visible');
+            };
+
+            const bindHoverHint = (el, text) => {
+                if (!el) return;
+                el.addEventListener('mouseenter', () => showFloatingNewsHint(text, el));
+                el.addEventListener('mouseleave', hideFloatingNewsHint);
+                el.addEventListener('focus', () => showFloatingNewsHint(text, el));
+                el.addEventListener('blur', hideFloatingNewsHint);
+            };
+
+            bindHoverHint(floatingNewsHeaderTrigger, '最小化');
+            bindHoverHint(floatingNewsFab, '最大化');
+
+            const minimizeFloatingNewsPanel = () => {
+                hideFloatingNewsHint();
+                floatingNewsPanel.classList.add('is-minimized');
+                window.setTimeout(() => {
+                    floatingNewsFab.classList.remove('is-hidden');
+                }, 120);
+            };
+
+            if (floatingNewsHeaderTrigger) {
+                floatingNewsHeaderTrigger.addEventListener('click', minimizeFloatingNewsPanel);
+                floatingNewsHeaderTrigger.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        minimizeFloatingNewsPanel();
+                    }
+                });
+            }
+
+            floatingNewsFab.addEventListener('click', () => {
+                hideFloatingNewsHint();
+                floatingNewsFab.classList.add('is-hidden');
+                floatingNewsPanel.classList.remove('is-minimized');
+            });
+        }
+
+        if (floatingNewsModal && floatingNewsModalBackdrop && floatingNewsModalClose) {
+            floatingNewsModalBackdrop.addEventListener('click', closeFloatingNewsModal);
+            floatingNewsModalClose.addEventListener('click', closeFloatingNewsModal);
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !floatingNewsModal.classList.contains('modal-hidden')) {
+                    closeFloatingNewsModal();
+                }
+            });
+        }
+
         if (showResearchSuggesterBtn && showResearchSuggesterBtn.tagName === 'BUTTON') {
             showResearchSuggesterBtn.addEventListener('click', () => {
                 modalTitle.textContent = 'AI 为您生成的研究方向';
@@ -568,6 +1126,29 @@
                 modalGenerateBtn.onclick = handleGenerateResearch;
                 showModal();
             });
+        }
+
+        // --- About markdown block ---
+        const aboutMarkdownEl = document.getElementById('about-markdown-content');
+        if (aboutMarkdownEl) {
+            const aboutMarkdownSource = `
+==我们是谁？==**应达学术**是一家由**科研科班出身创始人**牵头的，由中科大、清华、港科大在读博士、教职、博后、互联网科技公司Top组研究员组队，旨在为有背景提升需求的学生提供国际高水平科研服务，主要涵盖顶会指导、毕业论文辅导等多个方面。
+
+==为什么选择我们？==我们承诺做到**全网最低定金**（==单价5%==），并且是**全网首家提供算力的论文辅导机构**，除此之外，应达学术团队的名师长期在科研一线为大家带来最为专业的**投稿政策解读**、**科研心得干货**、**研究动向精讲**，我们相信：专业的水平就是最好的口碑。
+
+详情欢迎移步**小红书**==@打不倒小达==、**公众号**==@应达学术 QuenithAI==。
+
+`;
+            // Support ==highlight== syntax, mapped to <mark> for gradient highlight style.
+            const withMarks = aboutMarkdownSource.replace(/==([\s\S]+?)==/g, '<mark>$1</mark>');
+            if (window.marked && typeof window.marked.parse === 'function') {
+                aboutMarkdownEl.innerHTML = window.marked.parse(withMarks);
+            } else {
+                aboutMarkdownEl.innerHTML = withMarks
+                    .split(/\n{2,}/)
+                    .map((p) => `<p>${p}</p>`)
+                    .join('');
+            }
         }
 
         async function handleGenerateResearch() {
