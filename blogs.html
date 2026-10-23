@@ -541,6 +541,16 @@
         .skeleton-line { height: 14px; border-radius: 6px; }
         .skeleton-h1 { height: 28px; width: 60%; border-radius: 8px; }
         .skeleton-h2 { height: 22px; width: 40%; border-radius: 8px; }
+        /* Compact article typography (aligned with index.html .floating-news-markdown) */
+        #article-content.prose { line-height: 1.42; }
+        #article-content.prose h1, #article-content.prose h2, #article-content.prose h3 { margin-top: 1.15em; margin-bottom: 0.55em; }
+        #article-content.prose h1 { font-size: 2.1rem; }
+        #article-content.prose h2 { font-size: 1.55rem; }
+        #article-content.prose h3 { font-size: 1.25rem; }
+        #article-content.prose p { margin-bottom: 0.55em; line-height: 1.42; }
+        #article-content.prose ul, #article-content.prose ol { margin-bottom: 0.7em; }
+        #article-content.prose li { margin-bottom: 0.2em; line-height: 1.4; }
+        #article-content.prose blockquote { padding: 0.95em 1.2em; margin: 0.75em 0; line-height: 1.42; }
     </style>
 </head>
 <body class="text-gray-800">
@@ -1015,6 +1025,47 @@ Method章节是论文的技术核心，其结构必须清晰、连贯，承担�
     > While cross-entropy (CE) is the standard loss for classification, we observe that it yields poor generalization for our task. We therefore propose a multi-task learning scheme that introduces an auxiliary autoencoder-based reconstruction loss. This addition acts as a regularizer, promoting the learning of more generalizable features.
 */})
             },
+            'conf-news-cvpr27-timeline': {
+                title: 'CVPR-27时间线梳理',
+                category: 'news',
+                content: md(() => {/*
+👋 大家好，我们是应达学术团队。
+
+👋 CVPR 2027截稿将近！小达帮大家整理了今年的**完整时间线**，正在准备投稿的宝子们别忘了check一下～
+
+
+1️⃣ 投稿阶段（重要！）
+
+❶ 摘要截止：**2026年11月10日23:59（AoE）**，即**北京时间11月11日19:59**。同一截止前还必须完成**OpenReview profile和同意书**，官方明确**不延期**！
+
+❷ 全文截止：**2026年11月16日23:59（AoE）**，即**北京时间11月17日19:59**，同样**不延期**。
+
+❸ 补充材料截止：**2026年11月23日（AoE）**，约**北京时间11月24日19:59**。
+
+⚠️ 注意！AoE是**UTC-12**，23:59 AoE等于**北京时间次日19:59**，大家别算错了～
+
+
+2️⃣ 审稿与Rebuttal
+
+❶ 审稿意见发布：**2027年1月25日（AoE）**。
+
+❷ Rebuttal窗口：**2027年1月25日至2月1日（AoE）**，截止约**北京时间2月2日19:59**，篇幅仍是**1页PDF**。
+
+
+3️⃣ 录用结果
+
+最终结果将于**2027年2月25日**（AoE）公布。
+
+
+4️⃣ 其他提醒
+
+一稿多投限制期：**2026年11月16日至2027年2月22日**，期间**不能把同一工作投到其他会议或期刊**。
+
+
+🙋‍♀️ 预祝大家投稿顺利！
+
+*/})
+            },
             'conf-news-mm26-sub-policies': {
                 title: 'MM-26最新投稿政策解读（附新旧政策对比）',
                 category: 'news',
@@ -1304,6 +1355,59 @@ AAAI等长文，允许你铺陈背景、详述相关工作、展示大量实验�
 ▪️ 提交前务必检查编译生成的 .log 文件，修复所有关于「undefined references」或「multiply-defined labels」的警告。
 
 ▪️ 使用快捷键（Ctrl+F/Cmd+F）在PDF中搜索「??」，检查是否有未成功引用的文献或标签。*/})
+            },
+            'paper-26-10-22-dllm-icml25-github': {
+                title: 'ICML-25 DLLM方向论文列表汇总',
+                category: 'papers',
+                content: md(() => {/*
+👋 大家好，我们是应达学术团队。
+
+🎉 我们的**Diffusion-Large-Language-Models-Paper-List**更新啦，本次更新不仅反馈了大家之前的建议，同时更新了**ICML-25**最新收录的**8篇**文章，欢迎大家来我们的仓库玩～
+
+
+🙋‍♀️ 本次更新内容主要如下：
+
+❶ 更新了**ICML-25的8篇**最新收录工作，另将**1篇**原Pre-Print工作移至已发表（共**9篇**），涉及**3个**不同的子方向。
+
+
+# 更新速览
+
+**（详细文章列表见文末）**
+
+🏆 **ICML-25**最新工作一共收录**9篇**（含1篇从Pre-Print移入），其中：
+
+🔸 离散扩散理论与训练框架共**4篇**；
+
+🔸 推理时扩展与蒸馏加速共**2篇**；
+
+🔸 多模态扩散与LLM迁移共**3篇**。
+
+
+🌟仓库地址：[https://github.com/QuenithAI/Diffusion-Large-Language-Models-Paper-List](https://github.com/QuenithAI/Diffusion-Large-Language-Models-Paper-List)
+
+
+💗如果觉得我们的仓库对你有帮助，请帮忙点个免费的🌟～不胜感激！如有任何关于仓库的问题、意见或建议，或者是本次更新遗漏了你们课题组的工作，欢迎来提issues、PR！有求必应～期待大家成为我们repo的合作者之一！
+
+---
+
+# 文章列表
+
+### 离散扩散理论与训练框架
+- **Generalized Interpolating Discrete Diffusion**（📌 `dvruette/gidd`）  
+- **Target Concrete Score Matching: A Holistic Framework for Discrete Diffusion**  
+- **The Diffusion Duality**（📌 `s-sahoo/duo`）  
+- **Train for the Worst, Plan for the Best: Understanding Token Ordering in Masked Diffusions**  
+
+### 推理时扩展与蒸馏加速
+- **A General Framework for Inference-time Scaling and Steering of Diffusion Models**（📌 `zacharyhorvitz/FK-Diffusion-Steering`）  
+- **Distillation of Discrete Diffusion through Dimensional Correlations**（📌 `sony/di4c`）  
+
+### 多模态扩散与LLM迁移
+- **Diffuse Everything: Multimodal Diffusion Models on Arbitrary State Spaces**（📌 `KevinRojas1499/Diffuse-Everything`）  
+- **Large Language Models to Diffusion Finetuning**（📌 `SakanaAI/L2D`）  
+- **Roll the dice & look before you leap: Going beyond the creative limits of next-token prediction**（📌 `ChenWu98/algorithmic-creativity`）  
+
+*/})
             },
             'paper-26-03-14-t2v-github': {
                 title: 'CVPR-26视频生成方向论文列表汇总',
