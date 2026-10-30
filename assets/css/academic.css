@@ -1,0 +1,177 @@
+/*!
+ * 应达学术 · Academic theme (shared by all pages)
+ * Look inspired by al-folio (MIT), Academic Pages (MIT) and Tufte CSS (MIT).
+ * Every rule is scoped under html.ac so it outranks the Tailwind CDN utilities
+ * (injected at runtime after this file) without !important.
+ * Generated from academic.src.css by build_css.py.
+ */
+/* ---------- tokens ---------- */
+html.ac{--ink:#1c2430;--muted:#5b6472;--faint:#8b8f97;--paper:#fbfaf6;--paper2:#f5f2ea;--rule:#e6e1d6;--accent:#1f3a68;--accent-dk:#15294d;--accent2:#b4532a;--code-bg:#f6f4ee;--chip:#efe9dc;--chip-ink:#8a3b1c;
+  --serif:'Source Serif 4','Noto Serif SC','Songti SC','STSong','SimSun',serif;--sans:'Inter','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif;}
+/* ---------- base ---------- */
+html.ac, html.ac body{background:var(--paper);color:var(--ink)}
+html.ac body{font-family:var(--sans);background-image:none}
+html.ac h1, html.ac h2, html.ac h3, html.ac h4{font-family:var(--serif);letter-spacing:0}
+html.ac ::selection{background:rgba(180,83,42,.18)}
+html.ac *::-webkit-scrollbar-track{background:var(--paper2)}
+html.ac *::-webkit-scrollbar-thumb{background:#c9c2b3;border-color:var(--paper2)}
+html.ac .gradient-text{background:none;-webkit-text-fill-color:currentColor;color:var(--accent2);animation:none}
+/* palette remap of Tailwind utilities used in the markup */
+html.ac .text-gray-900, html.ac .text-gray-800, html.ac .text-slate-900, html.ac .text-slate-800{color:var(--ink)}
+html.ac .text-gray-700, html.ac .text-gray-600, html.ac .text-gray-500, html.ac .text-slate-700, html.ac .text-slate-500{color:var(--muted)}
+html.ac .text-gray-400{color:var(--faint)}
+html.ac .text-indigo-500, html.ac .text-indigo-600, html.ac .text-indigo-700, html.ac .text-blue-600{color:var(--accent)}
+html.ac .hover\:text-indigo-600:hover, html.ac .group:hover .group-hover\:text-indigo-600{color:var(--accent2)}
+html.ac .bg-indigo-600{background-color:var(--accent);box-shadow:none;border-radius:3px}
+html.ac .hover\:bg-indigo-500:hover{background-color:var(--accent-dk)}
+html.ac .bg-gray-800{background-color:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:3px}
+html.ac .hover\:bg-gray-700:hover{background-color:var(--accent);color:#fff}
+html.ac .bg-indigo-50{background-color:var(--chip);color:var(--chip-ink)}
+html.ac .border-gray-200, html.ac .border-gray-200\/60, html.ac .border-gray-300, html.ac .border-indigo-100, html.ac .border-indigo-200, html.ac .border-slate-200, html.ac .border-slate-200\/80{border-color:var(--rule)}
+html.ac .ring-indigo-200\/80, html.ac .ring-indigo-200\/70{--tw-ring-color:var(--rule)}
+html.ac .rounded-lg, html.ac .rounded-xl, html.ac .rounded-2xl{border-radius:3px}
+html.ac .shadow-sm, html.ac .shadow-md, html.ac .shadow-lg, html.ac .shadow-xl{box-shadow:none}
+html.ac .lift:hover, html.ac .lift:active{transform:none;box-shadow:none}
+html.ac .floating-icon{animation:none}
+/* ---------- header / nav ---------- */
+html.ac header{background-color:rgba(251,250,246,.94);border-bottom:1px solid var(--rule)}
+html.ac header.scrolled{background-color:rgba(251,250,246,.97);box-shadow:none;border-color:var(--rule)}
+html.ac header nav a{color:var(--ink);font-size:15px}
+html.ac header nav a:hover{color:var(--accent2)}
+html.ac header nav a::after{background:var(--accent2);height:1px;bottom:-4px}
+html.ac header img{border-color:var(--rule)}
+html.ac #mobile-menu{background:var(--paper);border-color:var(--rule)}
+html.ac #mobile-menu a{padding:.45rem 0;border-bottom:1px dashed var(--rule)}
+html.ac #mobile-menu a.bg-indigo-600{color:#fff;border-bottom:0}
+/* ---------- titles ---------- */
+html.ac .hero .hero-eyebrow{font-style:normal;font-family:var(--sans);font-size:12px;letter-spacing:.28em;font-weight:600;color:var(--accent2);margin-bottom:1.6rem;text-transform:uppercase}
+html.ac .hero h1{font-weight:900;letter-spacing:.02em;color:var(--ink)}
+html.ac .hero-rule, html.ac .section-title::after, html.ac .page-title::after{content:"";display:block;width:56px;height:2px;background:var(--accent2);margin:1.4rem auto}
+html.ac .section-title::after, html.ac .page-title::after{width:40px;margin:14px auto 0}
+html.ac .hero p{font-family:var(--serif);font-style:italic;color:var(--muted)}
+html.ac #hero-canvas{opacity:.2}
+html.ac section h2{font-weight:700}
+/* ---------- homepage sections ---------- */
+html.ac #about, html.ac #team, html.ac #resources, html.ac #cases{border-top:1px solid var(--rule)}
+html.ac #about .group-hover\:shadow-xl{box-shadow:none}
+html.ac #about .group:hover .group-hover\:-translate-y-1, html.ac #about.group:hover .group-hover\:-translate-y-1{--tw-translate-y:0}
+html.ac .about-figure{background:#fff;border:1px solid var(--rule);border-radius:2px}
+html.ac .about-figure [data-lucide], html.ac .about-figure svg.lucide{color:var(--accent);opacity:.35}
+html.ac .about-quote{position:absolute;bottom:22px;left:24px;right:90px;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:15px;line-height:1.6}
+html.ac .about-markdown{color:var(--muted)}
+html.ac .about-markdown strong, html.ac #cases .font-semibold.text-indigo-600{color:var(--accent);-webkit-text-fill-color:currentColor;background:none;box-shadow:inset 0 -.35em 0 rgba(180,83,42,.12)}
+html.ac .about-markdown code:not(pre > code), html.ac .about-markdown mark{background:var(--chip);color:var(--chip-ink);box-shadow:none;border-radius:2px}
+html.ac .stat-num{font-family:var(--serif)}
+html.ac .custom-card{background:#fff;border:1px solid var(--rule);border-radius:2px;box-shadow:none}
+html.ac .custom-card::before{display:none}
+html.ac .custom-card:hover{transform:none;border-color:var(--accent);box-shadow:0 1px 0 var(--accent)}
+html.ac .custom-card img.rounded-full{filter:grayscale(1);border-color:var(--rule)}
+html.ac .card-kicker{font-variant:small-caps;letter-spacing:.12em;font-size:12px;color:var(--accent2)}
+html.ac #cases .custom-card p{font-family:var(--serif);font-size:16px;line-height:1.85}
+html.ac #cases p.underline{text-decoration-color:rgba(31,58,104,.35);text-underline-offset:4px}
+/* ---------- footer ---------- */
+html.ac footer{background:var(--paper2);border-top:1px solid var(--rule)}
+html.ac footer .text-2xl{font-family:var(--serif)}
+html.ac footer a:hover{color:var(--accent2)}
+/* ---------- generic cards on sub pages ---------- */
+html.ac .bg-white.rounded-2xl, html.ac .bg-white.rounded-xl{background:#fff;border-color:var(--rule);border-radius:2px;box-shadow:none}
+html.ac a.bg-white.rounded-2xl:hover{border-color:var(--accent);box-shadow:0 1px 0 var(--accent)}
+html.ac .flow-card.has-right::after{background:var(--rule);height:2px}
+html.ac .flow-card.has-right::before{border-left-color:var(--accent2)}
+html.ac .flow-card.down::after{background:var(--rule);width:2px}
+html.ac .flow-card.down::before{border-top-color:var(--accent2)}
+html.ac .page-logo{box-shadow:none;--tw-ring-color:var(--rule)}
+/* ---------- modals ---------- */
+html.ac #gemini-modal .modal-content, html.ac #image-modal .bg-white{background:var(--paper);border-radius:4px}
+html.ac #modal-generate-btn{background:var(--accent)}
+html.ac .spinner{border-left-color:var(--accent)}
+/* ---------- floating news panel ---------- */
+html.ac #floating-news-panel{background:#fff;border:1px solid var(--rule);border-radius:4px;box-shadow:0 18px 40px -28px rgba(28,36,48,.55)}
+html.ac #floating-news-header-trigger{background:var(--accent);border-bottom:0}
+html.ac #floating-news-header-trigger:hover{background:var(--accent-dk)}
+html.ac #floating-news-header-trigger span{color:#fff}
+html.ac #floating-news-header-trigger .news-tag{color:#f4c9a8}
+html.ac .news-tag{letter-spacing:.2em;font-size:11px;color:#f4c9a8;margin-right:6px;font-weight:600}
+html.ac #floating-news-fab{background:var(--accent);color:#fff;border-color:var(--accent);border-radius:4px}
+html.ac #floating-news-list{padding:.5rem .75rem}
+html.ac .floating-news-title-btn{background:#fff;border:0;border-bottom:1px dashed var(--rule);border-radius:0;font-family:var(--serif);font-size:14.5px;padding:.65rem .5rem;color:var(--ink)}
+html.ac .floating-news-title-btn:hover{background:#faf7f0;border-color:var(--rule);transform:none;box-shadow:none;color:var(--accent)}
+html.ac .floating-news-title-btn.is-clicking{background:#f3eee3;border-color:var(--rule);box-shadow:none}
+html.ac .floating-news-title-btn .title-arrow{color:var(--accent2)}
+html.ac #floating-news-modal-backdrop{background:rgba(28,36,48,.35)}
+html.ac #floating-news-modal .modal-content{border-radius:4px;border-color:var(--rule);background:var(--paper)}
+html.ac #floating-news-modal .modal-content > div:first-child{background:#fff;border-bottom:2px solid var(--accent)}
+html.ac #floating-news-modal-title{font-family:var(--serif);color:var(--ink)}
+/* ---------- Markdown (floating popup + blog) ---------- */
+html.ac .floating-news-markdown, html.ac .prose{color:var(--ink)}
+html.ac .floating-news-markdown h1, html.ac .prose h1{background:none;-webkit-text-fill-color:currentColor;color:var(--ink);font-weight:900}
+html.ac .floating-news-markdown h2, html.ac .prose h2{color:var(--accent);border-bottom:1px solid var(--rule)}
+html.ac .floating-news-markdown h3, html.ac .prose h3{color:var(--accent2)}
+html.ac .floating-news-markdown strong, html.ac .prose strong{background:none;-webkit-text-fill-color:currentColor;color:var(--accent);font-weight:700}
+html.ac .floating-news-markdown em, html.ac .prose em{color:var(--muted)}
+html.ac .floating-news-markdown a, html.ac .prose a{color:var(--accent);background:none;text-decoration:underline;text-decoration-color:rgba(31,58,104,.35);text-underline-offset:3px}
+html.ac .floating-news-markdown a:hover, html.ac .prose a:hover{color:var(--accent2);text-decoration-color:var(--accent2)}
+html.ac .floating-news-markdown li::marker, html.ac .prose li::marker{color:var(--accent2)}
+html.ac .floating-news-markdown blockquote, html.ac .prose blockquote{background:transparent;border-left:3px solid var(--accent2);box-shadow:none;border-radius:0;font-family:var(--serif);color:var(--muted)}
+html.ac .floating-news-markdown pre, html.ac .prose pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:3px;box-shadow:none;padding:1rem 1.2rem}
+html.ac .floating-news-markdown pre::before, html.ac .prose pre::before{display:none}
+html.ac .floating-news-markdown pre code.hljs, html.ac .prose pre code.hljs{background:transparent;padding:0}
+html.ac .floating-news-markdown code:not(pre > code), html.ac .prose code:not(pre > code), html.ac .floating-news-markdown mark, html.ac .prose mark{background:var(--chip);color:var(--chip-ink);box-shadow:none;border-radius:2px}
+html.ac .copy-code-btn{background:#fff;border-color:var(--rule);border-radius:3px}
+html.ac .katex{font-size:1.06em}
+html.ac .katex-display{margin:.8em 0;padding:.6em 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);overflow-x:auto;overflow-y:hidden}
+/* ---------- blogs layout ---------- */
+html.ac .parallax-bg, html.ac .bg-gradient-to-br.from-slate-50{background:var(--paper)}
+html.ac .floating-element{animation:none}
+html.ac #left-sidebar{background:var(--paper2);box-shadow:none;border-right:1px solid var(--rule)}
+html.ac #left-sidebar .sidebar-inner > div:first-child{background:transparent;border-color:var(--rule)}
+html.ac .tab-button{border-radius:0;background:transparent;color:var(--muted);box-shadow:none;border-bottom:2px solid transparent}
+html.ac .tab-button:hover{background:transparent;color:var(--accent)}
+html.ac .tab-button.active{background:transparent;color:var(--accent);border-bottom-color:var(--accent2);font-weight:700;box-shadow:none}
+html.ac .article-link{border-radius:0;border:0;border-bottom:1px solid var(--rule);box-shadow:none;background:transparent;color:var(--ink)}
+html.ac .article-link::before{display:none}
+html.ac .article-link:hover{transform:none;box-shadow:none;background:#fbf9f3;border-color:var(--rule)}
+html.ac .article-link .article-icon-bg{background:transparent;border:1px solid var(--rule);border-radius:2px}
+html.ac .article-link .article-icon{color:var(--accent)}
+html.ac .article-link span.font-medium{font-family:var(--serif);font-size:14.5px}
+html.ac .article-link.active{background:#fff;color:var(--accent);border-left:3px solid var(--accent2);border-bottom-color:var(--rule);box-shadow:none;transform:none}
+html.ac .article-link.active .article-subtitle{color:var(--muted)}
+html.ac .article-link.active .article-icon, html.ac .article-link.active .article-chevron{color:var(--accent2)}
+html.ac #article-main{background:var(--paper)}
+html.ac #article-toolbar{background:var(--paper);box-shadow:none;border-color:var(--rule);z-index:20}
+html.ac #font-controls-panel{z-index:40;background:#fff;border-color:var(--rule);border-radius:4px}
+html.ac #font-controls-toggle, html.ac .font-control-btn{border-color:var(--rule);border-radius:3px}
+html.ac .font-controls{border-color:var(--rule);box-shadow:none}
+html.ac #article-content.prose{font-family:'Source Serif 4','Noto Serif SC','Songti SC',serif;max-width:46rem}
+html.ac #article-content.prose p{line-height:1.7}
+html.ac #article-content.prose li{line-height:1.6}
+html.ac #right-sidebar{background:var(--paper);border-color:var(--rule)}
+html.ac #right-sidebar .sticky > p{font-variant:small-caps;letter-spacing:.15em;color:var(--accent2)}
+html.ac #toc a{border-radius:0;border-left:2px solid var(--rule);font-family:var(--serif)}
+html.ac #toc a:hover{background:transparent;color:var(--accent)}
+html.ac #toc a.active{background:transparent;border-left-color:var(--accent2);color:var(--accent);font-weight:700}
+html.ac #reading-progress{background:var(--accent2)}
+html.ac #toggle-left-sidebar, html.ac #toggle-right-sidebar{background:#fff;border-color:var(--rule)}
+html.ac .skeleton{background:linear-gradient(90deg,#ece7dc 25%,#f5f2ea 37%,#ece7dc 63%);background-size:400% 100%}
+html.ac .loading-spinner{border-color:var(--rule);border-top-color:var(--accent)}
+@media (max-width: 767px){
+  html.ac .hero .hero-eyebrow{font-size:10.5px;letter-spacing:.16em}
+  html.ac .hero h1{letter-spacing:0}
+  html.ac .about-quote{right:24px}
+  /* floating news: keep the hero readable on phones */
+  html.ac #floating-news-list{max-height:24vh}
+  html.ac .hero{align-items:flex-start;padding-top:96px}
+  /* blogs: stack the article list above the article instead of a fixed 20rem column */
+  html.ac .parallax-bg{flex-direction:column}
+  html.ac #left-sidebar{width:100%;max-height:36vh;flex-shrink:0;border-right:0;border-bottom:1px solid var(--rule)}
+  html.ac #left-sidebar .sidebar-inner{width:100%}
+  html.ac #left-sidebar .sidebar-inner > div:first-child{padding-top:.5rem;padding-bottom:.5rem}
+  html.ac #category-description{display:none}
+  html.ac #article-list{padding:.25rem .75rem}
+  html.ac .article-link{padding-top:.6rem;padding-bottom:.6rem}
+  html.ac #article-main{min-height:0}
+  html.ac #article-toolbar{height:2.75rem;padding:0 1rem}
+  html.ac #font-controls-panel{top:2.5rem;right:.75rem}
+  html.ac #article-scroll{padding:1.1rem 1.1rem 2rem}
+}
+

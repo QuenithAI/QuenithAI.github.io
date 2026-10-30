@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="ac">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>团队师资 - 应达学术</title>
+  <link rel="icon" type="image/png" href="assets/logo_run_cn.png">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +12,7 @@
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -72,6 +73,8 @@
     .scroll-animate { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(0.165, 0.84, 0.44, 1), transform .8s cubic-bezier(0.165, 0.84, 0.44, 1); }
     .scroll-animate.is-visible { opacity: 1; transform: translateY(0); }
   </style>
+    <!-- Academic theme (shared) -->
+    <link rel="stylesheet" href="assets/css/academic.css">
 </head>
 <body class="antialiased">
   <!-- Header -->
@@ -112,7 +115,7 @@
     <!-- Page Intro -->
     <section class="py-10 md:py-14 text-center">
       <div class="container mx-auto px-6">
-        <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-3">我们的<span class="gradient-text">导师团队</span></h1>
+        <h1 class="page-title text-3xl md:text-5xl font-black text-gray-900 mb-3">我们的<span class="gradient-text">导师团队</span></h1>
         <p class="text-gray-600 max-w-2xl mx-auto">来自世界顶尖学府与一线科技公司的导师，为你的科研之路保驾护航。</p>
       </div>
     </section>
@@ -199,7 +202,7 @@
         <a href="blogs.html" class="hover:text-indigo-600 transition-colors">应达干货</a>
         <a href="index.html#cases" class="hover:text-indigo-600 transition-colors">成功案例</a>
       </div>
-      <p>&copy; 2024 应达学术. All Rights Reserved.</p>
+      <p>&copy; 2024–2026 应达学术. All Rights Reserved.</p>
     </div>
   </footer>
 

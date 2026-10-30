@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="ac">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>应达学术</title>
+    <link rel="icon" type="image/png" href="assets/logo_run_cn.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,13 +12,13 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
 
@@ -507,6 +508,13 @@
             }
         }
     </style>
+    <!-- KaTeX (LaTeX rendering for Markdown) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+    <script src="assets/js/math-render.js"></script>
+    <!-- Academic theme (shared) -->
+    <link rel="stylesheet" href="assets/css/academic.css">
 </head>
 <body class="antialiased">
 
@@ -550,19 +558,18 @@
 
     <main>
         <!-- Hero Section -->
-        <section class="relative h-screen flex items-center justify-center text-center">
+        <section class="hero relative h-screen flex items-center justify-center text-center">
             <!-- Wrap decorative layers so they fade out smoothly at the bottom -->
             <div class="absolute inset-0 z-0 pointer-events-none fade-out-bottom">
                 <canvas id="hero-canvas"></canvas>
-                <!-- Ambient gradient blobs for a subtle premium feel -->
-                <div class="pointer-events-none absolute -top-20 -left-20 w-72 h-72 bg-gradient-to-tr from-indigo-300 via-indigo-400 to-cyan-300 rounded-full blur-3xl opacity-40 animate-blob"></div>
-                <div class="pointer-events-none absolute -bottom-12 -right-16 w-80 h-80 bg-gradient-to-tr from-cyan-300 via-sky-300 to-indigo-400 rounded-full blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
             </div>
             
             <div class="relative z-10 px-4">
+                <p class="hero-eyebrow">Quenith AI · 应达学术 · Research Mentoring</p>
                 <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-4 tracking-wider">
                     你的 <span class="gradient-text">AI</span> 顶会论文，我们保驾护航
                 </h1>
+                <span class="hero-rule" aria-hidden="true"></span>
                 <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
                     专注 NeurIPS, ICML, ICLR 等顶级会议论文辅导，由世界顶尖学者和业界专家组成的导师团队，助你实现学术梦想。
                 </p>
@@ -585,11 +592,11 @@
             <div class="container mx-auto px-6">
                 <div class="grid md:grid-cols-2 gap-12 items-center transition-all duration-300 rounded-2xl group-hover:shadow-xl group-hover:-translate-y-1 m-2 md:m-4 p-4 md:p-6">
                     <div class="scroll-animate">
-                        <div class="relative w-full h-80 rounded-xl overflow-hidden shadow-lg ring-1 ring-white/20">
-                             <img src="https://placehold.co/600x400/f8f9fa/4f46e5?text=Quenith+AI" alt="应达学术抽象图" class="w-full h-full object-cover opacity-30">
+                        <div class="about-figure relative w-full h-80 overflow-hidden">
                              <div class="absolute inset-0 flex items-center justify-center">
                                 <i data-lucide="brain-circuit" class="w-24 h-24 text-indigo-500 opacity-50"></i>
                              </div>
+                             <p class="about-quote">“科研，是一场需要同行者的远征。”</p>
                              <div class="absolute bottom-4 right-4 hidden sm:flex items-center justify-center w-14 h-14 rounded-full ring-1 ring-white/40 bg-white/60 backdrop-blur shadow-lg">
                                  <img src="assets/logo_run_cn.png" alt="应达学术 Logo" class="w-10 h-10 rounded-full object-cover">
                              </div>
@@ -605,15 +612,15 @@
                         <div id="about-markdown-content" class="about-markdown mb-6"></div>
                         <div class="flex space-x-6">
                             <div class="text-center">
-                                <p class="text-3xl font-bold gradient-text">50+</p>
+                                <p class="stat-num text-3xl font-bold gradient-text">50+</p>
                                 <p class="text-sm text-gray-500">顶尖导师</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-3xl font-bold gradient-text">20+</p>
+                                <p class="stat-num text-3xl font-bold gradient-text">20+</p>
                                 <p class="text-sm text-gray-500">成功案例</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-3xl font-bold gradient-text">95%</p>
+                                <p class="stat-num text-3xl font-bold gradient-text">95%</p>
                                 <p class="text-sm text-gray-500">客户满意度</p>
                             </div>
                         </div>
@@ -626,7 +633,7 @@
         <section id="team" class="py-20 md:py-32">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">精英<span class="gradient-text">导师团队</span></h2>
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">精英<span class="gradient-text">导师团队</span></h2>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate" style="transition-delay: 0.1s;">
                         我们的导师均来自世界顶尖学府和科技公司，拥有丰富的顶会发表和审稿经验。
                     </p>
@@ -668,7 +675,7 @@
         <section id="resources" class="py-20 md:py-32">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">应达<span class="gradient-text">干货与开源项目</span></h2>
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">应达<span class="gradient-text">干货与开源项目</span></h2>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate" style="transition-delay: 0.1s;">
                         除经典科研顶会辅导业务外，团队不忘初心，一直都致力于为社区分享的干货资源及维护开源项目，旨在为人工智能社区献一份力。
                     </p>
@@ -677,7 +684,7 @@
                     <!-- 卡片：写作技巧 -->
                     <div class="custom-card rounded-xl overflow-hidden scroll-animate" style="transition-delay: 0.1s;">
                         <div class="p-6">
-                            <p class="text-sm text-indigo-600 mb-2">顶会「应」战心法</p>
+                            <p class="card-kicker text-sm text-indigo-600 mb-2">顶会「应」战心法</p>
                             <h3 class="text-lg font-bold text-gray-900 mb-3">标题/摘要/引言高分攻略</h3>
                             <p class="text-gray-500 text-sm mb-5">由一线科研导师团队总结提炼，为冲刺顶会的小伙伴们提供高效指南。</p>
                             <a href="blogs.html?category=news&article=conf-news-hotbrief" class="font-semibold text-gray-800 hover:text-indigo-600 transition-colors">前往阅读 →</a>
@@ -686,7 +693,7 @@
                     <!-- 卡片：投稿指南（Rebuttal/流程） -->
                     <div class="custom-card rounded-xl overflow-hidden scroll-animate" style="transition-delay: 0.2s;">
                         <div class="p-6">
-                            <p class="text-sm text-indigo-600 mb-2">会议投稿信息快讯</p>
+                            <p class="card-kicker text-sm text-indigo-600 mb-2">会议投稿信息快讯</p>
                             <h3 class="text-lg font-bold text-gray-900 mb-3">关键时间点/投稿政策动向解读</h3>
                             <p class="text-gray-500 text-sm mb-5">实时更新顶会投稿的最新动向和政策，为广大研究者提供一线权威的最新快讯。</p>
                             <a href="blogs.html" class="font-semibold text-gray-800 hover:text-indigo-600 transition-colors">前往阅读 →</a>
@@ -695,7 +702,7 @@
                     <!-- 卡片：会议趋势（Trends） -->
                     <div class="custom-card rounded-xl overflow-hidden scroll-animate" style="transition-delay: 0.3s;">
                         <div class="p-6">
-                            <p class="text-sm text-indigo-600 mb-2">GitHub调研仓库</p>
+                            <p class="card-kicker text-sm text-indigo-600 mb-2">GitHub调研仓库</p>
                             <h3 class="text-lg font-bold text-gray-900 mb-3">Video Generation/T2I等热门方向</h3>
                             <p class="text-gray-500 text-sm mb-5">总结最新的论文、数据集、开源代码资源动态，由一线导师带队、团队实时维护。</p>
                             <a href="https://github.com/QuenithAI/Video-Generation-Paper-List" target="_blank" rel="noopener noreferrer" class="font-semibold text-gray-800 hover:text-indigo-600 transition-colors">跳转链接 →</a>
@@ -703,7 +710,7 @@
                     </div>
                 <div class="custom-card rounded-xl overflow-hidden scroll-animate" style="transition-delay: 0.3s;">
                         <div class="p-6">
-                            <p class="text-sm text-indigo-600 mb-2">科研便利小工具</p>
+                            <p class="card-kicker text-sm text-indigo-600 mb-2">科研便利小工具</p>
                             <h3 class="text-lg font-bold text-gray-900 mb-3">写作Final Checklist等提效工具</h3>
                             <p class="text-gray-500 text-sm mb-5">团队多年指导经验凝练的写作checklist、科研脚本等多个开源工具，赋能你的每个科研环节。</p>
                             <a href="https://github.com/QuenithAI/aaai-26-reproduction-checklist/blob/main/final-checklist.md" target="_blank" rel="noopener noreferrer" class="font-semibold text-gray-800 hover:text-indigo-600 transition-colors">跳转链接 →</a>
@@ -717,7 +724,7 @@
         <section id="cases" class="py-20 md:py-32">
              <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">我们的<span class="gradient-text">成功案例</span></h2>
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-gray-900 mb-4 scroll-animate">我们的<span class="gradient-text">成功案例</span></h2>
                     <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate" style="transition-delay: 0.1s;">
                         口碑是我们最好的证明，我们永远欢迎诚信、长期、深度的合作。
                     </p>
@@ -767,7 +774,7 @@
                 <a href="research.html" class="hover:text-indigo-600 transition-colors">成熟课题</a>
                 <a href="#cases" class="hover:text-indigo-600 transition-colors">成功案例</a>
             </div>
-            <p>&copy; 2024 应达学术. All Rights Reserved.</p>
+            <p>&copy; 2024–2026 应达学术. All Rights Reserved.</p>
             <p class="text-sm mt-2">为梦想插上翅膀，让才华顶峰相见。</p>
         </div>
     </footer>
@@ -821,7 +828,7 @@
 
         <section id="floating-news-panel" class="floating-news-panel absolute right-0 bottom-0 w-full rounded-2xl border border-indigo-100 bg-white/95 backdrop-blur overflow-hidden">
             <div id="floating-news-header-trigger" class="flex items-center justify-between px-4 py-3 border-b border-slate-200/80 bg-gradient-to-r from-indigo-50 to-cyan-50 cursor-pointer select-none hover:from-indigo-100 hover:to-cyan-100 transition-colors" role="button" tabindex="0" aria-label="最小化新闻面板">
-                <span class="text-sm font-semibold text-slate-800">👉点我了解最新热点动态！</span>
+                <span class="text-sm font-semibold text-slate-800"><span class="news-tag">NEWS</span>👉点我了解最新热点动态！</span>
                 <span class="p-1.5 rounded-md text-slate-500 pointer-events-none" aria-hidden="true">
                     <i data-lucide="minus" class="w-4 h-4"></i>
                 </span>
@@ -925,6 +932,46 @@
         // 1) 修改 title 作为标题列表文案
         // 2) 修改 content 作为点开后全文内容（支持换行）
         const floatingNewsItems = [
+        {
+                id: '2026-10-27-cvpr27-ignored-nine',
+                title: 'CVPR-27最易忽略的9个事项（含26年回顾）',
+                content: `
+👋 大家好，我们是应达学术团队。
+
+👋 CVPR-27**截稿将近**！小达帮大家梳理了**从26到27年的重要政策变化**，正在准备投稿的宝子们别忘了check一下～
+
+
+# 易忽略事项速览
+
+1️⃣ CVPR-26回顾
+
+❶ **作者名单在摘要截止后锁定**，不能再增删作者，比25年**早了一周**。（录用后能否调整作者顺序，官方页面说法不一）
+
+❷ **外部链接规则**：用于扩展内容或影响审稿的链接，在**正文、补充材料和rebuttal中一律禁止**；引用论文的**arXiv链接**、非本文提出的**公开数据集或代码库链接**仍可使用。
+
+❸ 新增**prompt injection禁令**：在论文里藏指令（如白底白字）影响审稿人或工具，**直接desk reject**。
+
+❹ **迟交审稿不再有宽限期**，该审稿人署名的**所有论文都可能被desk reject**，还会通报其合作者。
+
+
+2️⃣ CVPR-27新变化（重要！）
+
+❶ **互惠审稿配额**：若论文作者中无人发表过符合要求的顶会或期刊长文（**截至2026年11月10日**，CVPR/ICCV/ECCV、NeurIPS/ICML/ICLR等，**workshop不算**），**每位作者最多只能挂名一篇**此类论文。发表记录需**导入OpenReview profile**，**仅在DBLP上有记录不够**，超额投稿将**从编号最大的开始desk reject**。
+
+❷ **必须写LLM Usage Statement**：放在**正文后、参考文献前**，**不计页数、需匿名**。**没用LLM也要写明**，缺了**直接desk reject**！
+
+❸ 会议审稿将使用**OpenReview内置的获批LLM工具**，仅作辅助，**不打分、不做决定**，**作者无法申请禁用**。
+
+❹ **desk reject理由统一为A–E五类**（配额、格式与匿名、学术诚信、审稿失职、论文无法正常审阅），**不可申诉**。
+
+❺ **同期工作新规**：**2026年9月15日之后**公开的arXiv工作需引用和讨论，条件允许时做对比，但**审稿人不能仅因内容相似而拒稿**。
+
+⚠️ 注意！官网CFP显示**LLM政策仍在敲定中**，截稿前可能调整。
+
+
+🙋预祝大家投稿顺利！
+`
+            },
         {
                 id: '2026-10-25-cvpr27-policy-compare',
                 title: 'CVPR-27新旧政策对比（含详细解读）',
@@ -1031,28 +1078,49 @@
 
 🎉 我们的**Diffusion-Large-Language-Models-Paper-List**更新啦，本次更新不仅反馈了大家之前的建议，同时更新了**ICML-25**最新收录的**8篇**文章，欢迎大家来我们的仓库玩～
 
-
 🙋‍♀️ 本次更新内容主要如下：
 
-❶ 更新了**ICML-25的8篇**最新收录工作，另将**1篇**原Pre-Print工作移至已发表（共**9篇**），涉及**3个**不同的子方向。
+❶ 更新了**ICML-25的8篇**最新收录工作，另将**1篇**原Pre-Print工作移至已发表（共**9篇**）。
 
-📌 更新速览
+# 更新速览
 
-**（详细文章列表见[「应达干货」](https://quenithai.github.io/blogs.html?category=papers&article=paper-26-10-22-dllm-icml25-github)）**
+（👆具体文章篇目、仓库一览见图2️⃣👆）
 
 🏆 **ICML-25**最新工作一共收录**9篇**（含1篇从Pre-Print移入），其中：
 
-🔸 离散扩散理论与训练框架共**4篇**；
+🔸 2025 Published Papers共**9篇**。
 
-🔸 推理时扩展与蒸馏加速共**2篇**；
-
-🔸 多模态扩散与LLM迁移共**3篇**。
-
+![图2️⃣ ICML-25文章列表](assets/dllm_icml25/list1.png)
 
 🌟仓库地址：[https://github.com/QuenithAI/Diffusion-Large-Language-Models-Paper-List](https://github.com/QuenithAI/Diffusion-Large-Language-Models-Paper-List)
 
+💗如果觉得我们的仓库对你有帮助，请帮忙点个免费的🌟～不胜感激！如有任何关于仓库的问题、意见或建议，或者是本次更新遗漏了你们课题组的工作，欢迎来提issues、PR！有求必应～（👆Contributing Guidelines见图3️⃣👆）期待大家成为我们repo的合作者之一！
 
-💗如果觉得我们的仓库对你有帮助，请帮忙点个免费的🌟～不胜感激！如有任何关于仓库的问题、意见或建议，或者是本次更新遗漏了你们课题组的工作，欢迎来提issues、PR！有求必应～期待大家成为我们repo的合作者之一！
+![图3️⃣ Contributing Guidelines](assets/dllm_icml25/contributing.png)
+
+---
+
+# 📚 文章列表
+
+### 2025 Published Papers
+
+🔸 **A General Framework for Inference-time Scaling and Steering of Diffusion Models**（📌 \`zacharyhorvitz/FK-Diffusion-Steering\`）
+
+🔸 **Diffuse Everything: Multimodal Diffusion Models on Arbitrary State Spaces**（📌 \`KevinRojas1499/Diffuse-Everything\`）
+
+🔸 **Distillation of Discrete Diffusion through Dimensional Correlations**（📌 \`sony/di4c\`）
+
+🔸 **Generalized Interpolating Discrete Diffusion**（📌 \`dvruette/gidd\`）
+
+🔸 **Large Language Models to Diffusion Finetuning**（📌 \`SakanaAI/L2D\`）
+
+🔸 **Roll the dice & look before you leap: Going beyond the creative limits of next-token prediction**（📌 \`ChenWu98/algorithmic-creativity\`）
+
+🔸 **Target Concrete Score Matching: A Holistic Framework for Discrete Diffusion**
+
+🔸 **The Diffusion Duality**（📌 \`s-sahoo/duo\`）
+
+🔸 **Train for the Worst, Plan for the Best: Understanding Token Ordering in Masked Diffusions**
 
                 `
             },
@@ -1250,7 +1318,8 @@
             floatingNewsModalTitle.textContent = item.title;
             const markdownText = String(item.content || '');
             if (window.marked && typeof window.marked.parse === 'function') {
-                floatingNewsModalContent.innerHTML = window.marked.parse(markdownText);
+                floatingNewsModalContent.innerHTML = window.ydRestoreMath(window.marked.parse(window.ydProtectMath(markdownText)));
+                window.ydRenderMath(floatingNewsModalContent);
                 if (window.hljs) {
                     floatingNewsModalContent.querySelectorAll('pre code').forEach((block) => {
                         window.hljs.highlightElement(block);
@@ -1498,11 +1567,11 @@
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+                particleCount = Math.floor((canvas.width * canvas.height) / 25000);
                 initParticles();
             }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-            const particleCount = Math.floor((canvas.width * canvas.height) / 25000);
+            // particleCount is (re)computed in resizeCanvas(); the first resize runs after the class/helpers below are defined
+            let particleCount = 0;
             class Particle {
                 constructor() {
                     this.x = Math.random() * canvas.width;
@@ -1510,7 +1579,7 @@
                     this.size = Math.random() * 1.5 + 1;
                     this.speedX = Math.random() * 1 - 0.5;
                     this.speedY = Math.random() * 1 - 0.5;
-                    this.color = `rgba(79, 70, 229, ${Math.random() * 0.8 + 0.1})`;
+                    this.color = `rgba(31, 58, 104, ${Math.random() * 0.8 + 0.1})`;
                 }
                 update() {
                     this.x += this.speedX; this.y += this.speedY;
@@ -1541,7 +1610,7 @@
                         let distance = Math.sqrt(Math.pow(particles[a].x - particles[b].x, 2) + Math.pow(particles[a].y - particles[b].y, 2));
                         if (distance < 120) {
                             opacityValue = 1 - (distance / 120);
-                            ctx.strokeStyle = `rgba(99, 102, 241, ${opacityValue * 0.5})`;
+                            ctx.strokeStyle = `rgba(31, 58, 104, ${opacityValue * 0.5})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(particles[a].x, particles[a].y);
@@ -1551,6 +1620,8 @@
                     }
                 }
             }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
             animateParticles();
 
             // Subtle parallax for the canvas
